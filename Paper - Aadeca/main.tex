@@ -1,0 +1,467 @@
+\documentclass[a4paper]{aadeca}
+\bibliographystyle{ifac}
+\usepackage{natbib}
+%\usepackage[latin1]{inputenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[tight]{subfigure}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancypagestyle{plain}
+
+\providecommand{\keywords}[1]
+{
+  \small	
+  \textbf{\textit{Keywords---}} #1
+}
+
+%plot
+\usepackage{pgfplots}
+\usepgfplotslibrary{external} 
+\tikzexternalize
+%\tikzset{external/force remake}
+%tikz
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,positioning,fit,petri,calc,intersections,through,backgrounds,shapes}
+\newenvironment{customlegend}[1][]{%
+    \begingroup
+    % inits/clears the lists (which might be populated from previous
+    % axes):
+    \csname pgfplots@init@cleared@structures\endcsname
+    \pgfplotsset{#1}%
+}{%
+    % draws the legend:
+    \csname pgfplots@createlegend\endcsname
+    \endgroup
+}%
+
+% makes \addlegendimage available (typically only available within an
+% axis environment):
+\def\addlegendimage{\csname pgfplots@addlegendimage\endcsname}
+
+\subfiglabelskip=0pt
+\subfigtopskip=0pt
+\setcounter{MaxMatrixCols}{10}
+
+\interdisplaylinepenalty=2500
+
+\usepackage{siunitx}
+
+\begin{document}
+\selectlanguage{english}
+\runauthor{Autor1, Autor2, Autor3}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhf{}
+\fancyhead[CO]{\textbf{\small{AADECA 2016 - Automatic Control Week - 25º Argentinian Congress for Automatic Control
+\linebreak \footnotesize November 1--3, 2016 - Buenos Aires, Argentina.}}}
+
+
+%%%%%%% Para trabajos en Área Estudiantil
+\fancyfoot[CO]{\textit{\small{Student Body}}}
+
+\begin{frontmatter}
+\title{\vspace{-12pt} OPTIMIZATION OF TRAJECTORIES THROUGH INTERPOLATORS APPLIED TO DIFFERENTIAL MOBILE ROBOTS }
+\author[Institucion2]{Martinez, Jorge Nahuel}
+\author[Institucion2]{Bonzini, Aramis Augusto}
+
+ 
+\address[Institucion1]{Tutors: Giannetta, Hernan M.R. and Granzella, Damian\\}
+\address[Institucion2]{Universidad Tecnológica Nacional - Facultad Regional Buenos Aires - Electronics Department - martinez.jnahuel@gmail.com}
+
+\renewcommand\abstractname{\textbf{Abstract: }}
+\begin{abstract}
+In the present paper are exposed the results of the analysis performed for order 3 and 5 interpolators, as well as a cycloidal-type interpolator, for the design of curved trajectories in differential mobile robots. 
+This study begins on the kinematic and dynamic modeling of the mobile robot in question, to be able to obtain an accurate model and it's temporal response, with the objective of then studying the various factors that alter the resulting trajectory compared with the theoretical model.
+Finally the analysis of the mentioned interpolators is shown, as well as their influence in the proposed testing trajectory of the mobile robot.
+\end{abstract}
+
+\keywords{Differential Mobile Robots. Kinematic Model. Dynamic Model. Interpolator.}
+
+\end{frontmatter}
+\thispagestyle{fancy}
+
+
+%------------------------------------------
+\section{Introduction}
+%------------------------------------------
+
+In the field of mobile robotics, interpolators are widely used to optimize the trajectories took by the vehicle.
+They work by modifying the acceleration functions in the actuators, without altering the starting and ending point in the desired trajectory.
+The precision of this trajectory in mobile robots is also influenced by the response time of the controller, the maximum or RMS velocity and acceleration applied to it's wheels, how continuous are the torques, etc. 
+Interpolators are used, then, to control and optimize these parameters, and will allow the robot to reach it's destination along the desired trajectory, while also presenting advantages in the control of the parameters mentioned above.
+
+Many publications regarding the use of interpolators can be found, most notably the works of \cite{scaglia_linear-interpolation-based_2010}, where controllers based on linear interpolators were applied to the trajectories of differential mobile robots; or the works of \cite{canini_controllo_2003} and \cite{n3spline}, where many different interpolation functions are proposed for a given trajectory.
+
+This present article will then show the result of implementing higher order polynomial interpolators (order 3 and 5), as well as a cycloidal interpolator, as ways to enhance  the characteristics of the trajectories applied to the differential robot.
+
+%------------------------------------------
+\section{Mobile Robot Characteristics}
+%------------------------------------------
+%% 
+
+For the experiment, a differential mobile robot Multiplo N6 of \cite{robotgroupe_robots_2016} firm was used.
+It consists of two independent mobile wheels, and a free turning wheel on the rear-side, for balance purposes.
+This robot is controlled by the \cite{duinobot_multiplo_2016} v1.2 system, which is based on a modified Arduino Micro-Controller, integrated on the circuit board, along with the motion controller, optic sensors, battery power supply, and the rest of the hardware.
+The used robot in question can be seen in figure \ref{fig:robo}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{./robo}
+\caption{Rear view of the mobile robot used}
+\label{fig:robo}
+\end{figure}
+
+The programming environment is based on the Multiplo Development Platform \cite{duinobot_multiplo_2016}, which is also a modified version of the Arduino platform, specifically design for it's use in mobile robot controllers.
+
+%------------------------------------------
+\subsection{Kinematic Model}
+
+For the kinematic model, the model proposed by \cite{dudek_computational_2010} was used.
+This proposal consists on modeling the differential robot trajectory as a combination of circular trajectories, where the radius, center of rotation and period are a dependent on the instantaneous velocity of both wheels.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.6\linewidth]{./parametros}
+\caption{Proposed trajectory model}
+\label{fig:parametros}
+\end{figure}
+
+In this model, the matrix equation \eqref{eq:matriz} that describes this circular trajectory is applied in the central point of the axis between the wheels: by starting on any given point ($x,y,\Theta$) one can obtain it's final location ($x^{'},y^{'},\Theta^{'}$) via this equation:
+
+\small
+\begin{equation}
+\label{eq:matriz}
+\begin{bmatrix}
+x^{'}\\
+y^{'}\\
+\Theta^{'}
+\end{bmatrix}=
+\begin{bmatrix}
+\cos\left(\omega\delta t\right) && -\sin\left(\omega\delta t\right) && 0\\
+\sin\left(\omega\delta t\right) && \cos\left(\omega\delta t\right) && 0\\
+0 && 0 && 1
+\end{bmatrix}
+\begin{bmatrix}
+x-\text{ICC}_x\\
+y-\text{ICC}_y\\
+\Theta
+\end{bmatrix}+
+\begin{bmatrix}
+\text{ICC}_x\\
+\text{ICC}_y\\
+\omega\delta t
+\end{bmatrix}
+\end{equation}
+\normalsize
+
+where $R$ (radius from the center of rotation) and $\omega\delta t$ can be obtained from the following expressions:
+
+\begin{equation}
+R = \frac{l}{2}\cdot\frac{n_l + n_r}{n_l - n_r},
+\label{radio}
+\end{equation}
+
+\begin{equation}
+\omega\delta t=\frac{\left(n_r - n_l\right)\cdot\text{step}}{l},
+\label{omega}
+\end{equation}
+
+In these expressions, the values $n_l$ and $n_r$ are the measured counts from the rotary encoders on the left and right wheels respectively.
+The $step$ parameter, meanwhile, is the constant arc length between two slits in the encoder.
+By multiplying $n_x$ by $step$, the instantaneous velocity on a wheel can be easily calculated.
+
+To obtain the instant center of rotation (ICC), expression \ref{eq:icc} is used:
+
+\begin{equation}
+\label{eq:icc}
+\text{ICC}=\left[x-R\sin\Theta , y+R\cos\Theta\right].
+\end{equation}
+
+To verify this kinematic model, the robot was programmed to make a simple circular trajectory.
+Data input was sent to a laboratory computer, to be analyzed via Matlab.
+The desired velocities of both wheels need to be inputed in the program as a percentage of the motors max velocity, for quick testing purposes, velocity is not controlled with a closed-loop scheme in this project. 
+
+%------------------------------------------
+\subsection{Dynamic Model}
+
+To obtain the vehicle's dynamic response, a model proposed by \cite{ivanjko_modelling_2010} was used, which makes an analysis based on Lagrange energy considerations.
+
+In a differential robot, it's movement is restricted inside a planar surface.
+Therefore, the energy balance is obtained as the sum of partial kinetic energy, since potential energy variations remain null.
+This energy is therefore calculated as the sum of both translation and rotation energy of the mobile robot, as well as the energy of each wheel.
+
+In this model, the final equations that explain the torque each wheel receives, is a function of the robot's own parameters, friction with the surface, acceleration function, and the velocities applied to each wheel.
+The equations are as follows:
+
+\begin{align}
+D_{11}\ddot{\Theta}_r+D_{12}\ddot{\Theta}_l+\beta\dot{\Theta}_r&=\tau_r,
+\label{ec_din_1}\\
+D_{21}\ddot{\Theta}_r+D_{22}\ddot{\Theta}_l+\beta\dot{\Theta}_l&=\tau_l,
+\label{ec_din_2}
+\end{align}
+
+Where parameters $D_{11}$, $D_{12}$, $D_{21}$, $D_{22}$, are obtained in expressions:
+
+\begin{align}
+D_{11}=D_{22}&=\left[\frac{mr^2}{4}+\frac{\left(I_A + md^2\right)r^2}{b^2}+I_0\right],\\
+D_{21}=D_{12}&=\left[\frac{mr^2}{4}-\frac{\left(I_A + md^2\right)r^2}{b^2}\right],
+\end{align}
+
+Where parameter $m$ corresponds to the robot's total mass, $r$ is the wheels' radius, $d$ the distance between the middle of the wheels' axis and the robot's center of mass, $b$ the distance between wheels, $I_O$ the moment of inertia of the wheel-motor set, and $I_A$ the moment of inertia of the whole robot along the center of rotation ICC.
+
+By analyzing equations \ref{ec_din_1} and \ref{ec_din_2}, one can see that the result of the torque equations are dependent on the influences of both the acceleration function and the velocity function.
+This means that, if discontinuities in those functions are present, this will directly affect the torque functions.
+At the same time, if the RMS values of acceleration functions are reduced, the RMS torque will also be reduced, requiring less from the motors, and smaller motors could be used instead.
+
+For these reasons, it's important to analyze in detail the diverse number of interpolators available that allow us to satisfy the desired trajectory requirements.
+
+%-----------------------------------
+\subsection{Trajectory Interpolators}
+
+There are many different ways of obtaining any given trajectory, depending on the desired velocity and acceleration on every point.
+An Interpolator is a mathematical function that states position as a function of time (in the case of polynomial interpolators), or acceleration as a function of time (in cycloidal interpolators).
+The selected interpolator will then be defined depending on the form of the controlled velocity or acceleration.
+A detailed description of the most commonly used interpolators can be found in \cite{canini_controllo_2003}, most notably, polynomial interpolators of any order, or many other different shapes (cycloidal, S-type, trapezoidal, etc.); each one of these has different characteristics and their own advantages and disadvantages (continuity, diminution of RMS values, etc).
+
+%-----------------------------------
+\subsubsection{\textbf{3rd order polynomial interpolators:}}
+
+In this case, the position as a function of time is:
+\begin{align}
+x(t) = a_0 + a_1 \cdot t + a_2 \cdot t^2 + a_3 \cdot t^3.
+\end{align}
+
+It's derivative, velocity, is a quadratic function, forming a parabola where it's vertex is found in the middle point of the trajectory.
+Acceleration on the other hand, is a linear function with a set slope, therefore presenting discontinuities at both the start and the end of the trajectory.
+The parameters $a_n$ can be obtained by knowing the desired initial and final positions, and by defining initial and final velocities.
+The $3^{rd}$ order interpolator can be determined by the desired positions and velocities, but the desired acceleration cannot be set, and remains discontinuous.
+
+%-----------------------------------
+\subsubsection{\textbf{5th order polynomial interpolators:}}
+
+In this case, the position as a function of time is:
+
+\small
+\begin{align}
+x(t) = a_0 + a_1 \cdot t + a_2 \cdot t^2 + a_3 \cdot t^3 + a_4 \cdot t^4 + a_5 \cdot t^5.
+\end{align}
+\normalsize
+
+This interpolator is very similar to the $3^{rd}$ order interpolator, but in this case, not only the initial and final positions can be chosen, but also the initial and final velocity, and acceleration.
+It also guarantees that every control variable is completely continuous.
+
+%-----------------------------------
+\subsubsection{\textbf{Cycloidal Interpolator}}
+
+Contrasting the polynomial interpolators, this kind needs to be defined as a specific continuous acceleration function.
+In this case, velocity and position will be determined via multiple integrations of this acceleration function.
+
+In this case, the acceleration as a function of time is:
+
+\begin{align}
+\ddot{x}_{(t)} = \dfrac{ x_{(t_f)} - x_{(t_i)} }{ {(t_f - t_i)}^{2} } \cdot 2 \cdot \pi \cdot sin( \dfrac{ 2 \cdot \pi \cdot t }{ t_f - t_i } ).
+\end{align}
+
+This interpolator allows to define the initial and final position, as well as acceleration and velocity, which are all continuous, just like in the $5^{th}$ order interpolator.
+The main feature of this interpolator is that acceleration follows a sinusoidal form, which guarantees no discontinuities and a smooth evolution.
+This is highly important, as it minimizes mechanic vibrations, especially in electric motors with loose mechanic couplings.
+
+%-----------------------------------
+
+\subsection{Comparison Between Results}
+
+It is useful to compare the diverse interpolators used, by showing their results in a table, and also comparing them with the result without using interpolators (this function is called a constant acceleration function).
+The compared values are maximum velocity, maximum acceleration, and RMS acceleration, all of them normalized, as seen in table \ref{table:Interpoladores}.
+This makes the comparison between interpolators easier.
+
+\small
+\begin{table}[h]
+\caption{Comparative results of various interpolators}
+\label{table:Interpoladores}
+\begin{tabular}{|p{1.5cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|}
+\hline
+& Norm. Maximum Velocity & Norm. Maximum Acceleration & Norm. RMS Acceleration\\
+\hline
+Constant Acceleration & \SI{1}{\metre \per \second} & \SI{1}{\metre \per \second \squared} & \SI{1}{\metre \per \second \squared}\\
+\hline
+$3^{rd}$ order polynomial & \SI{0.75}{\metre \per \second} & \SI{1.5}{\metre \per \second \squared} & \SI{0.87}{\metre \per \second \squared}\\
+\hline
+$5^{th}$ order polynomial & \SI{0.94}{\metre \per \second} & \SI{1.44}{\metre \per \second \squared} & \SI{1.03}{\metre \per \second \squared}\\
+\hline
+Cycloidal & \SI{1}{\metre \per \second} & \SI{1.57}{\metre \per \second \squared} & \SI{1.11}{\metre \per \second \squared}\\
+\hline
+\end{tabular}
+\end{table}
+\normalsize
+
+%------------------------------------------
+\subsection{Velocity Measurements}
+
+To verify the models under study, it was necessary to measure the robot's position and velocity.
+To that end, the robot has a set of optical rotary encoders.
+These encoders consist on a continuous light source, and an optic receptor that measures the light reflected on a white slitted disk that spins along the wheel, where light will be reflected on the disk, except on black spaces.
+This allows the measurement of the wheel's rotation speed, by measuring the time between the reflected light samples.
+
+In practice, a 16-division encoder was implemented, using a CNY17 (Fig.:\ref{fig:encoder}) sensor.
+This way, 16 pulses will be measured in each full rotation.
+These pulses were measured by programming the micro-controller's timer interrupt, to measure continuously every $1 ms$, in other words, the encoders have a sampling frequency of $1 KHz$, a value higher than the maximum frequency of the pulses of light, when the wheel spins at it's maximum frequency.
+
+Since the measurement disk contains 16 slits, each pulse of light translates to a 22.5º angle movement that, along with the time measured between pulses allows to calculate the rotation speed on each wheel at any given time.
+By multiplying this rotation speed by the wheel's radius, the instantaneous speed can be obtained.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.6\linewidth]{./encoder}
+\caption{Optical encoders on the robot's wheel}
+\label{fig:encoder}
+\end{figure}
+
+Because of the looseness of the wheel, the motor-wheel set sometimes moves farther from the sensor, and sometimes moves closer.
+Therefore, the optical signal measured has not constant peak values, and this makes it difficult to set a fixed threshold to measure the rotation speed.
+To solve this issue, instead of measuring the period of the signal, the signal is instead filtered, to contain a null mean value, and then zero-crossings are counted instead.
+This greatly simplifies the measurement technique, and it provides no additional error.
+
+%-----------------------------------
+\section{Discussion and Results}
+%-----------------------------------
+
+To verify the kinematic model, the theoretical velocities for the wheels were set, so they would make a circular clockwise trajectory.
+By solving equations \ref{radio} and \ref{omega}, comfortable radius and period values were chosen; given this condition, the left wheel would need a higher velocity, since it would be farther to the center of rotation.
+
+Two similar studies, with the same input values were made:
+Firstly, the robot was activated in a way it's wheels would not touch the ground.
+In this way, the robot was guaranteed not to have any friction with the surface, and no opposing torque generated by it's own mass, this was made to minimize slip, and so that the speed would not be altered.
+This consideration would make the kinematic model more accurate in it's simplified hypothesis.
+With these conditions, the wheels' speeds were measured, and their trajectory found in figure \ref{fig:tray} was obtained.
+The initial analysis shows a different result that was expected, due to mechanical imprecision of the mobile parts and bad implementation of the motor driver's libraries.
+A circular trajectory, however, was obtained, but with a significantly smaller radius.
+
+Then, a similar test was made, with the robot on the ground, on a perfectly planar surface.
+As was expected, and seen in figure \ref{fig:tray}, the obtained results were also unsatisfactory and different to both the previous test, and the theoretic model.
+In this case, even more factors can cause these discrepancies, for example slip, friction, and such, which make the simplified models not work as expected.
+However, this data obtained was used to obtain new calibration coefficients, to apply to each independent wheel, with the objective of making the desired trajectories closer to those predicted by the mathematical modeling.
+These coefficients are used as a correction value for the open-loop speed control.
+
+\begin{figure}[h]
+\centering
+\newlength\figureheight
+\newlength\figurewidth
+\setlength\figureheight{\columnwidth} \setlength\figurewidth{\columnwidth}
+\noindent\resizebox{0.9\columnwidth}{!}{
+\input{trayect.tikz}}
+\begin{tikzpicture}
+    \begin{customlegend}[legend entries={Theoretic Trajectory,Trajectory Over Planar Surface,Trajectory with no Contact on the Ground},legend cell align=left]
+    \addlegendimage{blue,fill=blue,sharp plot}
+    \addlegendimage{red,fill=red,sharp plot}
+    \addlegendimage{black,fill=black,sharp plot}
+    \end{customlegend}
+\end{tikzpicture}
+\caption{Trajectories of the mobile robot, for both theoretic and experimental cases}
+\label{fig:tray}
+\end{figure}
+
+The other issues found on this preliminary testing is that the speed measurement by the encoders shows not only verification of the wheel's speed at any given time, but also the wheel's position and distance to the sensor.
+In this last case, as can be seen in figure \ref{fig:encoders_temporales}, the amplitude of the maximums is not constant.
+This seems to imply that the wheel is loose enough that it moves farther and closer to the sensor and this, in fact, adds more error in this system's trajectory.
+These errors are even higher when the robot is on the floor, instead of being suspended. 
+
+\begin{figure}[h]
+\centering
+\noindent\resizebox{0.95\columnwidth}{!}{
+\input{Encoders.tikz}}
+\caption{Encoder measured signal}
+\label{fig:encoders_temporales}
+\end{figure}
+
+These maximums are repeated every 16 samples, meaning that the variation in distance corresponds to every full rotation of the wheel.
+It would be seen, then, by analyzing the spectrum, that additional components of different frequencies would be found, with the effect of taking unnecessary energy from the system, and transforming it into useless movement.
+
+After obtaining these initial values, test were made on the 3 different kinds of interpolators, by making the same circular trajectory proposed in our previous tests.
+
+\begin{figure}[h]
+\centering
+\noindent\resizebox{0.8\columnwidth}{!}{
+\input{pol3_der_vel.tikz}}
+\noindent\resizebox{0.8\columnwidth}{!}{
+\input{pol5_der_vel.tikz}}
+\noindent\resizebox{0.8\columnwidth}{!}{
+\input{cic_der_vel.tikz}}
+\begin{tikzpicture}
+    \begin{customlegend}[legend entries={Theoretical velocity,Obtained Trajectory},legend cell align=left]
+    \addlegendimage{blue,fill=blue,sharp plot}
+    \addlegendimage{red,mark=o,only marks}
+    \end{customlegend}
+\end{tikzpicture}
+\caption{Speed measured on different interpolators}
+\label{fig:vel}
+\end{figure}
+
+The interpolators used, as mentioned before, are the $3^{rd}$ and $5^{th}$ order polynomial, as well as the cycloidal interpolator.
+The objective of this stage of testing was to study their influence on the trajectory of the robot, and try to verify if the use of interpolators would produce better results than a simple control with no interpolators whatsoever.
+
+This results can be appreciated on figure \ref{fig:vel} (Velocity curves) and \ref{fig:trayint} (Obtained trajectories), where it can be seen that the use of interpolators creates better trajectories, much closer to the desired theoretical results, in both the magnitude of the wheels' speed, but also the obtained final trajectories.
+
+\begin{figure}[h]
+\centering
+\noindent\resizebox{0.8\columnwidth}{!}{
+\input{Trayectorias.tikz}}
+\begin{tikzpicture}
+    \begin{customlegend}[legend entries={Desired Theoretical Trajectory,Result of $3^{rd}$ Order Interpolator,Result of $5^{th}$ Order Interpolator,Result of Cycloidal Interpolator,Result without the use of Interpolator},legend cell align=left]
+    \addlegendimage{black,mark=x,only marks}   \addlegendimage{blue,fill=blue,thick,sharp plot}
+    \addlegendimage{red,fill=blue,thick,sharp plot}
+    \addlegendimage{green,fill=blue,thick,sharp plot}
+    \addlegendimage{magenta,mark=x,only marks}
+    \end{customlegend}
+\end{tikzpicture}
+\caption{Obtained trajectories with different interpolators}
+\label{fig:trayint}
+\end{figure}
+
+It can be seen that the use of interpolators greatly improve the obtained results, and are able to more correctly approximate to the desired result, even with an open-loop control.
+
+It should be noted that in the case of cycloidal interpolator, the point of reference was accidentally moved, and thus a circular trajectory was obtained, but it's center is not aligned with the rest of the trajectories.
+
+%-------------------------------------------
+\section{Conclusions}
+%-------------------------------------------
+
+This work had many objectives, all regarding the modeling and control of a simple two-wheeled mobile robot.
+First, the kinematic analysis made by \cite{dudek_computational_2010}, for differential mobile robots, was studied and evaluated for a simple curved trajectory, and compared with experimental values.
+ 
+Then, the dynamic model proposed by \cite{ivanjko_modelling_2010} was used for the same type of mobile robot.
+Given the same trajectory, a number of interpolators were chosen, with the objective of verifying their characteristics and observing whether they improved the resulting trajectories.
+Regarding these, the interpolators chosen are base on the most used in the studies of \cite{canini_controllo_2003}.
+The observed results were highly favorable: even with an open-loop control, the use of interpolators seemed to reduce significantly errors in trajectories, caused mostly by mechanical or electro-mechanical parts.
+Depending on the requirements of the robot, the user may be able to choose many of these different interpolators to obtain the desired result, for example a minimum RMS velocity (reducing the current and therefore energy consumption), minimizing sharp accelerations and jitter, etc.
+
+These errors were also analyzed, since they were introduced by a combination of factors, most notably the quality of the mechanical pieces, the quality and repeatability of the electric motors, and the measurement quality of the optical encoders.
+
+For future works, it is proposed to improve the control system used to move the robot.
+Since, for budget reasons, the mechanical system would not be changed, what's left is to create more robust control systems, with the objective of reducing errors as much as possible.
+The use of interpolators has already shown their feasibility in significantly reducing these errors, but more can be done to better the results, for example implementing the calibration factors obtained in the initial measurements, and designing closed-loop control systems, which would translate in a more robust scheme, with greater immunity to errors.
+
+Finally, the project could be enhanced by adding more complex trajectories to the experiment, which would actually be variations of a fixed-radius circle.
+The use of sensors for the trajectory decision/control could also be considered, in the case of distance sensors, position sensors, etc.
+ 
+ %-------------------------------------------
+\section{Thanks}
+%-------------------------------------------
+% las fuentes de financiación
+
+The authors wish to thank the Electronics and Visual Learning Departments of "Universidad Tecnológica Nacional", for the purchase of these mobile robots, and laboratory equipment.
+We would also wish to thank them for helping finance this publication, and allowing us to present it in various opportunities.
+
+%.---------------------- 
+ 
+\bibliography{biblio_template}
+\end{document}
+
+%.----------------------
+
+
+
+

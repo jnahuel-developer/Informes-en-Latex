@@ -1,0 +1,2925 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,english]{babel}
+\usepackage{tikz}		% Para los gráficos
+\usepackage{array}		% Para los sistemas de ecuaciones
+\usepackage{amsmath}	% Para los entornos matemáticos
+\usepackage{amssymb}	% Para la simbología matemática
+\usepackage{vmargin}	% Para modificar los márgenes de las hojas
+\usepackage{color}		% Para escribir con diferentes colores
+\usepackage{float}		% PAra usar [H] en las tablas y ubicarlas donde se quiera
+\usepackage{yhmath}		% Para usar el símbolo del arco en los números periódicos
+\usepackage{cancel}		% Sirve para tachar los números en las ecuaciones
+
+\usepackage{graphicx}	% Para insertar figuras
+\usepackage{multirow, array}	% Para fusionar celdas de la misma columna
+
+
+\setpapersize{A4}
+\setmargins{2.5cm}		% Margen izquierdo
+{1.5cm}					% Margen superior
+{17cm}					% Ancho del texto
+{25cm}					% Alto del texto
+{10pt}					% Altura de los encabezados
+{1cm}					% Espacio entre el texto y los encabezados
+{0pt}					% Altura del pie de página
+{0.5cm}					% Espacio entre el texto y el pie de página
+
+\usepackage{hyperref}	% Para hacer el índice interactivo
+\hypersetup{			% Para configurar la interactividad a gusto
+pdfstartview={FitH},	% PAra modificar la vista inicial
+colorlinks=true,		% Para que los links aparezcan con color en lugar de encuadrados
+linkcolor=violet		% Color de los links
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Comandos propios
+
+\newcommand{\definicion}[1]{\paragraph{\indent #1} \hspace{0pt}}
+
+\newcommand{\consigna}[1]{\paragraph{\indent #1} \hspace{0pt}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Economía}
+\author{Carpeta de cursada}
+\date{2 cuatrimestre de 2016}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\selectlanguage{spanish}
+
+\maketitle
+\tableofcontents
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+Clase 2 - 20/08 \hrulefill
+
+\section{Precios}
+
+	\subsection{Definiciones}
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    \consigna{Representa la función de la moneda como medio de valor y de cambio. Es decir, el valor moentario de un bien o servicio.}
+    
+    \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    	\draw (-1,-0.5) rectangle ++ (2,1);
+        \node at (0,0) {Mercado};
+        \draw (-3.5,1) rectangle ++ (3,1);
+        \node at (-2,1.5) {Costos};
+        \draw (3.5,1) rectangle ++ (-3,1);
+        \node at (2,1.5) {Valor de uso};
+        \draw (-3.5,2.5) rectangle ++ (3,1);
+        \node at (-2,3) {Productos};
+        \draw (3.5,2.5) rectangle ++ (-3,1);
+        \node at (2,3) {Consumidores};
+        \draw[<-, very thick] (-2,2) -- ++ (0,0.5);
+        \draw[<-, very thick] (2,2) -- ++ (0,0.5);
+        \draw[<-, very thick] (-1,0) -| ++ (-1,1);
+        \draw[<-, very thick] (1,0) -| ++ (1,1);
+	\end{tikzpicture}
+    \end{figure}
+    
+    \begin{itemize}
+    	\item	\textbf{Mercado}: Formado por los Oferentes y Demandantes.
+        			Es el conjunto de operaciones, contractaciones, etc. que realiza una sociedad en un determinado momento, vinculadas con operaciones de compra-venta relacionadas con la Oferta y Demanda
+		\item	\textbf{Demanda}: Es la cantidad de un bien que un individuo o conjunto de individuos está dispuesto a adquirir a un determinado precio en un tiempo dado y en un determinado mercado.
+        
+        \item	\textbf{Oferta}: Es la cantidad de mercaderías que está dispuesta a ofrecer (el conjunto de oferentes) para vender a un determinado precio en un determinado momento y en un mercado dado.
+        
+        \item	\textbf{Leyes o reglas de competencia perfecta}: Son las que regulan el mercado para que todo funcione:
+        		\begin{itemize}
+					\item	Libertad de acceso al mercado
+                    \item	Acceso a toda la información
+                    \item	Tanto los Oferentes como los Demandantes deben conocer todas las propuestas
+                    \item	Debe existir documentación clara, transparente y absoluta
+				\end{itemize}
+                
+		\item	\textbf{Comodity}: Materias primas estratégicas
+        
+	\end{itemize}
+    
+    \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=0.9]
+        % Ejes
+        \draw[<-] (5,0) -- (0,0);
+        \draw[<-] (0,5) -- (0,0);
+        % Unidades de los ejes
+        \node[right] at (5,0) {Q [Cantidad]};
+        \node[right] at (0,5) {\$};
+        % Recta de oferta
+        \draw[violet] (0.5,0.5) -- ++ (4,4);
+        \node[above right, violet] at (4.5,4.5) {Oferta};
+        % Recta de demanda
+        \draw[green] (0.5,4.5) -- ++ (4,-4);
+        \node[above right, green] at (0.5,4.5) {Demanda};
+        % Precio de equilibrio
+        \fill[red] (2.5,2.5) circle (0.1cm);
+        \draw[red, dashed] (0,2.5) -| ++ (2.5,-2.5);
+        \node[right, red] at (3,2.5) {Precio de equilibrio};
+        % Flechas dinámicas
+        \draw[<-, red, dashed, very thick] (2.75,3) -- ++ (0.75,0.75);
+        \draw[<-, red, dashed, very thick] (2.25,3) -- ++ (-0.75,0.75);
+        \draw[<-, red, dashed, very thick] (2.75,2) -- ++ (0.75,-0.75);
+        \draw[<-, red, dashed, very thick] (2.25,2) -- ++ (-0.75,-0.75);
+        % Cantidades en los ejes
+        \node[left] at (0,2.5) {P};
+        \node[below] at (2.5,0) {Q};
+	\end{tikzpicture}
+	\end{figure}
+    
+	\newpage
+    
+    \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Ejes
+        \draw[<-] (6,0) -- (0,0);
+        \draw[<-] (0,6) -- (0,0);
+        % Unidades de los ejes
+        \node[right] at (6,0) {Q [Cantidad]};
+        \node[right] at (0,6) {\$};
+        % Recta de oferta
+        \draw[violet] (0.5,0.5) -- ++ (4,4);
+        \node[above right, violet] at (4.5,4.5) {O};
+        % Recta de Oferta en Recesivo
+        \draw[violet, very thick, dashed] (0.5,1.5) -- ++ (4,4);
+        \node[above right, violet] at (4.5,5.5) {O'};
+        % Recta de demanda
+        \draw[green] (0.5,4.5) -- ++ (4,-4);
+        \node[above right, green] at (0.5,4.5) {D};
+        % Precio de equilibrio
+        \fill[red!50!white] (2.5,2.5) circle (0.1cm);
+        \draw[red, dashed] (0,2.5) -| ++ (2.5,-2.5);
+        % Precio de equilibrio modificado
+        \fill[red] (2,3) circle (0.1cm);
+        \draw[red, dashed, ultra thick] (0,3) -| ++ (2,-3);
+        % Acotaciones en los ejes
+        \node[left] at (0,2.5) {P};
+        \node[left, red] at (0,3) {P'};
+        \node[below] at (2.5,0) {Q};
+        \node[below, red] at (2,0) {Q'};
+        % Eplicación
+        \node[right] at (5,3) {\textcolor{red}{P'}$>$P};
+        \node[right] at (5,2) {\textcolor{red}{Q'}$<$Q};
+	\end{tikzpicture}
+    \caption{Contexto económico recesivo}
+	\end{figure}
+    
+    \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Ejes
+        \draw[<-] (6,0) -- (0,0);
+        \draw[<-] (0,6) -- (0,0);
+        % Unidades de los ejes
+        \node[right] at (6,0) {Q [Cantidad]};
+        \node[right] at (0,6) {\$};
+        % Recta de oferta
+        \draw[violet] (0.5,0.5) -- ++ (4,4);
+        \node[above right, violet] at (4.5,4.5) {O};
+        % Recta de demanda
+        \draw[green] (0.5,4.5) -- ++ (4,-4);
+        \node[above right, green] at (0.5,4.5) {D};
+        % Recta de demanda en progresivo
+        \draw[green, dashed, very thick] (0.5,5.5) -- ++ (4,-4);
+        \node[above right, green] at (0.5,5.5) {D'};
+        % Precio de equilibrio
+        \fill[red!50!white] (2.5,2.5) circle (0.1cm);
+        \draw[red, dashed] (0,2.5) -| ++ (2.5,-2.5);
+        % Precio de equilibrio modificado
+        \fill[red] (3,3) circle (0.1cm);
+        \draw[red, dashed, ultra thick] (0,3) -| ++ (3,-3);
+        % Acotaciones en los ejes
+        \node[left] at (0,2.5) {P};
+        \node[left, red] at (0,3) {P'};
+        \node[below] at (2.5,0) {Q};
+        \node[below, red] at (3,0) {Q'};
+        % Eplicación
+        \node[right] at (5,3) {\textcolor{red}{P'}$>$P};
+        \node[right] at (5,2) {\textcolor{red}{Q'}$>$Q};
+	\end{tikzpicture}
+    \caption{Contexto económico progresivo}
+	\end{figure}
+    
+    \definicion{Elasticidad: Diferencia de Q respecto del precio P original. Mide el aumento o la disminución de la cantidad comprada, relativa a una disminución o a un aumento en el precio}
+    \begin{align}
+    	\text{Elasticidad} = -\dfrac{P}{Q} \cdot \dfrac{\Delta Q}{\Delta P}
+	\end{align}
+    
+    \definicion{Importante: En este curso sólo se va a analizar la elasticidad de la demanda}
+    
+    \newpage
+    
+    \par{
+    	La elasticidad de la demanda se puede resumir en 5 casos límites
+        }
+    
+    \begin{itemize}
+		\item	\textbf{Perfectamente rígida}
+        
+        \item	\textbf{Inelástica}
+        
+        \item	\textbf{Unitaria}
+        
+        \item	\textbf{Elástica}
+        
+        \item	\textbf{Perfectamente elástica}
+        
+	\end{itemize}
+    
+    \newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Clase 3 - 27/08 \hrulefill
+
+\section{Depreciación}
+
+	\subsection{Definiciones}
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    \begin{itemize}
+		\item	\textbf{Capital fijo}: Parte del capital utilizado en bienes de consumición lenta (Con tendencia estática).
+        \item	\textbf{Capital circulante}: Parte del capital utilizado en bienes de consumo instantáneo (Con tendencia dinámica)
+        \item	\textbf{Activo fijo tangible}: Son las instalaciones, maquinarias y equipos periféricos.
+        \item	\textbf{Activo fijo intangible}: Son los gastos de puesta en marcha o de implementación.
+        \item	\textbf{Costos de capital}: Puede venir del capital propio, del capital prestado o del capital asociado.
+        \begin{itemize}
+			\item	En el caso del capital prestado, éstos se pueden dar a través de préstamos, por el método francés (\textsl{de cuotas decrecientes}), por el método alemán (\textsl{de cuotas crecientes}) o por el método americano (\textsl{de cuotas lineales}).
+            		En cualquier caso, los intereses que se pagan por préstamos, se pueden devengar de los impuestos a las ganacias.
+            \item	En el capital asociado, se comparten las utilidades con un posible socio, rescindiendo parte de la soberanía empresaria.
+		\end{itemize}
+        \item	\textbf{Índice de endeudamiento}: Relaciona el pasivo total (\textsl{representa los fondos de terceros que se utilizan para generar beneficios}) con el activo total.
+        		A medida que crezca, la capacidad de apancalamiento financiero disminuye.
+                \begin{align}
+                    IE = \dfrac{\text{Pasivo total}}{\text{Activo total}}
+                \end{align}
+        \item	\textbf{Depreciación}: Representa la desvalorización que sufre un bien, por su deterioro, desgaste, obsolescencia o insuficiencia (\textsl{en la escala productiva}).
+        		El sistema puede tener 2 propósitos:
+		\begin{itemize}
+			\item	Cargar el valor de la mortización a los resultados de la empresa.
+            \item	Adecuar el valor residual a la situación patrimonial de la empresa.
+		\end{itemize}
+        \item	\textbf{Amortización}: Es una manera de asignar el costo de las inversiones a los diferentes ejercicios del uso de la actividad industrial empresaria y a su \underline{plazo de tiempo}.
+        		Para esto, se tendrá en cuenta la vida útil económica del proyecto, que es aquella en que el costo del bien para la empresa deja de ser menor que reemplazándolo por uno nuevo.
+        		
+	\end{itemize}
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    \newpage
+    
+    \subsection{Guía de ejercicios - Depreciación}
+    
+    	%%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        \subsubsection{Aclaraciones}
+        
+        \par{\hspace{0.5cm}
+        	El \textbf{valor inicial} del bien es la suma de los factores hasta su puesta en marcha (\textsl{Valor de compra, Impuestos y aranceles, Gastos de transporte, Gastos de puesta en marcha}).
+            \begin{align}
+            	\text{ Valor inicial = Valor de compra + Impuestos + Transporte + Puesta en marcha }
+                \label{valor_inicial}
+			\end{align}
+            
+            El \textbf{valor final} es la suma de los factores necesarios para su venta (\textsl{Reventa final, Gastos por desmantelamiento, Alquiler para exposición}).
+            \begin{align}
+            	\text{ Valor final = Valor de reventa - Desmantelamiento - Alquiler para exposición }
+                \label{valor_final}
+			\end{align}
+            
+            El \textbf{valor amortizable} es la diferencia entre el valor inicial y el valor final
+            \begin{align}
+            	\text{ Valor amortizable = Valor inicial - Valor final }
+                \label{valor_amortizable}
+			\end{align}
+            
+            El \textbf{valor de las cuotas} se calcula sobre el valor amortizable.
+            La fracción de cada cuota depende del tipo de sistema a emplear.
+            En todos los casos, el denominador es la suma de todos los años de vida útil económica del bien.
+            \begin{itemize}
+				\item	Método francés (\textsl{Cuota decreciente}): Arranca en n y termina en 1
+				\item	Método alemán (\textsl{Cuota creciente}): Arranca en 1 y termina en n
+				\item	Método americano (\textsl{Cuota fija}): Todas valen el promedio de n
+			\end{itemize}
+            
+            El \textbf{valor residual} de cierto año, es la diferencia entre el valor inicial y todas las cuotas que correspondan hasta dicho año.
+            Luego del último año, el residual tiene que coincidir con el valor final.
+            Si en algún año el valor residual real difiere del teórico, significa que hubo una descapitalización (\textsl{Si el real fué menor al esperado}) o una capitalización (\textsl{Si el real fué mayor al esperado}).
+            En ambos casos, se puede deber a un mal prorrateo de los costos.
+            
+            Cuando se pide el valor residual de un cierto año, no importa si es al inicio o al fin de dicho año.
+            
+            La vida útil tecnológica de un bien puede ser mayor a la vida útil económica.
+            Esto simplemente implica que dicho bien puede seguir siendo utilizado más allá del tiempo de amortización.
+            
+            Cuando se indica el valor de compra de un bien móvil, se da el dato del costo del seguro del flete,  denominado como \textbf{CIF}.
+            En base a esto se determinan los impuestos y aranceles.
+        	}
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        \hrulefill
+        
+        \subsubsection{Ejercicio 1}
+        
+        \consigna{Indique con una X en la celda correspondiente que sistema de amortización basado en el tiempo aplicaría a los siguientes bienes de uso durable que posee una empresa}
+        
+        \begin{table}[H]
+        \centering
+        	\begin{tabular}{ | l | c | c | c | c | }
+           	\hline
+            & De cuota creciente	&	De cuota decreciente	& De cuota uniforme	& No se amortiza	\\ \hline
+            Edificios		& & & & \\ \hline
+            Terrenos		& & & & \\ \hline
+            Camiones		& & & & \\ \hline
+            Instalaciones	& & & & \\ \hline
+            Máquinas		& & & & \\ \hline
+            Software		& & & & \\ \hline
+			\end{tabular}
+		\end{table}
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        \newpage
+    
+    	\subsubsection{Ejercicio 2}
+        
+        \consigna{Dada la información que se detalla a continuación, calcule:}
+        
+        \begin{itemize}
+			\item[A)]	El valor inicial del bien.
+            \item[B)]	El valor final del bien.
+            \item[C)]	El valor residual del bien al segundo año.
+            \item[D)]	La cuota de amortización aplicable al bien en el último año.
+            \item[E)]	Analice qué pasó si el valor residual real del segundo año es de \$150.000.
+		\end{itemize}
+        
+        \begin{table}[H]
+        \centering
+        	\begin{tabular}{ | l | l | }
+            	\hline
+            	Valor de compra de una fresadora					&	\$150.000	\\ \hline
+                Impuestos internos y Aranceles						&	20\% CIF	\\ \hline
+                Gastos de transporte desde la Aduana a la planta	&	\$1.000		\\ \hline
+                Gastos de puesta en marcha							&	\$10.000	\\ \hline
+                Valor de reventa final								&	\$30.000	\\ \hline
+                Gastos por desmantelación del bien					&	\$3.000		\\ \hline
+                Alquiler para exposición hasta la venta definitiva	&	\$500		\\ \hline
+                Sistema de amortización								&	Creciente	\\ \hline
+                Vida útil económica									&	5 años		\\ \hline
+                Vida útil tecnológica								&	10 años		\\ \hline
+			\end{tabular}
+		\end{table}
+        
+        A) El valor inicial del bien. Según (\ref{valor_inicial}), vale:
+
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+            	Valor inicial	&=&		Valor de compra + Impuestos + Transporte + Puesta en marcha \\
+                Valor inicial	&=&		\$150.000 + 20\% $\cdot$ \$150.000 + \$1.000 + \$10.000 \\
+                Valor inicial	&=&		\textbf{\$191.000}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        B) El valor final del bien. Según (\ref{valor_final}), vale:
+
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+            	Valor final	&=&		Valor de reventa - Desmantelamiento - Alquiler para exposición \\
+                Valor final	&=&		\$30.000 - \$3.000 - \$500 \\
+                Valor final	&=&		\textbf{\$26.500}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        C) El valor residual del bien al segundo año. Para esto se deben calcular los valores de las cuotas y residuales para cada año, sabiendo que la viuda útil económica de la máquina son 5 años y el sistema de cuotas es alemán.
+        
+        \begin{align*}
+        	Denominador = \sum_{1}^{5} n = 15
+		\end{align*}
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+            	Valor amortizable	&=&		Valor inicial - Valor final \\
+                Valor amortizable	&=&		\$191.000 - \$26.500 \\
+                Valor amortizable	&=&		\textbf{\$164.500}
+			\end{tabular}
+		\end{table}
+        
+        \newpage
+        
+        \begin{table}[H]
+        \centering
+        	\begin{tabular}{ | c | c | c | c | }
+            	\hline
+                Cuota	&	Fracción de Va	&	Cálculo					&	Valor		\\ \hline
+                Cuota 1	&	1/15			&	1/15 $\cdot$ \$164.500	&	\$10.966,67	\\ \hline
+                Cuota 2	&	2/15			&	2/15 $\cdot$ \$164.500	&	\$21.933,33	\\ \hline
+                Cuota 3	&	3/15			&	3/15 $\cdot$ \$164.500	&	\$32.900	\\ \hline
+                Cuota 4	&	4/15			&	4/15 $\cdot$ \$164.500	&	\$43.866,67	\\ \hline
+                Cuota 5	&	5/15			&	5/15 $\cdot$ \$164.500	&	\$54.833,33	\\ \hline
+			\end{tabular}
+		\end{table}
+        
+        \begin{table}[H]
+        \centering
+        	\begin{tabular}{ | c | c | c | }
+            	\hline
+                Valor residual		&	Cálculo								&	Valor			\\ \hline
+                Valor residual 1	&	\$191.000 - 1/15 $\cdot$ \$164.500	&	\$180.033,33	\\ \hline
+                Valor residual 2	&	\$191.000 - 3/15 $\cdot$ \$164.500	&	\$158.100		\\ \hline
+                Valor residual 3	&	\$191.000 - 6/15 $\cdot$ \$164.500	&	\$125.200		\\ \hline
+                Valor residual 4	&	\$191.000 - 10/15 $\cdot$ \$164.500	&	\$81.333,33		\\ \hline
+                Valor residual 5	&	\$191.000 - 15/15 $\cdot$ \$164.500	&	\$26.500		\\ \hline
+			\end{tabular}
+		\end{table}
+        
+        \par{
+        	El valor residual del bien al segundo año es de \textbf{\$158.100}
+            }
+		
+        \hrulefill
+        
+        D) La cuota de amortización aplicable al bien en el último año es de \textbf{\$54.833,33}
+        
+        \hrulefill
+        
+        E) El valor residual del segundo año es de \$158.100. Si el real fuese de \$150.000, significa una descapitalización de \textbf{\$8.100}. Esto se puede deber a un mal prorrateo de los costos.
+        
+        \hrulefill
+        
+        \par{
+        	Gráfico de la evolución del valor del bien
+            }
+		
+        \begin{center}
+        \begin{tikzpicture}[scale = 2]
+        	% Ejes
+			\draw[<-] (0,4.5) -- ++ (0,-4.5);
+            \draw[<-] (6,0) -- ++ (-6,0);
+            % Valores residuales
+            \draw (0,4) circle (0.075cm);
+            \draw (1,3.77) circle (0.075cm);
+            \draw (2,3.31) circle (0.075cm);
+            \draw (3,2.62) circle (0.075cm);
+            \draw (4,1.7) circle (0.075cm);
+            \draw (5,0.55) circle (0.075cm);
+            % Lineas auxiliares en X
+            \draw[dashed] (1,0) -- ++ (0,3.77);
+            \draw[dashed] (2,0) -- ++ (0,3.31);
+            \draw[dashed] (3,0) -- ++ (0,2.62);
+            \draw[dashed] (4,0) -- ++ (0,1.7);
+            \draw[dashed] (5,0) -- ++ (0,0.55);
+            % Lineas auxiliares en X
+            \draw[dashed] (0,3.77) -- ++ (1,0);
+            \draw[dashed] (0,3.31) -- ++ (2,0);
+            \draw[dashed] (0,2.62) -- ++ (3,0);
+            \draw[dashed] (0,1.7) -- ++ (4,0);
+            \draw[dashed] (0,0.55) -- ++ (5,0);
+            % Nombres
+            \node[right] at (6,0) {Años};
+            \node[right] at (0,4.5) {Valor monetario};
+            \node[left] at (-0.1,4) {\$191.000};
+            \node[left] at (-0.1,3.77) {\$180.033,33};
+            \node[left] at (-0.1,3.31) {\$158.100};
+            \node[left] at (-0.1,2.62) {\$125.200};
+            \node[left] at (-0.1,1.7) {\$81.333,33};
+            \node[left] at (-0.1,0.55) {\$26.500};
+            \node[below] at (1,0) {Año 1};
+            \node[below] at (2,0) {Año 2};
+            \node[below] at (3,0) {Año 3};
+            \node[below] at (4,0) {Año 4};
+            \node[below] at (5,0) {Año 5};
+            % Linea de cuota creciente
+            \draw[green, dashed, very thick] (0,4) -- (1,3.77) -- (2,3.31) -- (3,2.62) -- (4,1.7) -- (5,0.55);
+            \node[right, green] at (3,3) {Cuota creciente};
+            % Linea de cuota fija
+            \draw[red, dashed, very thick] (0,4) -- (5,0.55);
+            \node[left, red] at (2,2.25) {Cuota fija};
+		\end{tikzpicture}
+		\end{center}
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        \newpage
+    
+    	\subsubsection{Ejercicio 3}
+        
+        \consigna{Dada la información que se detalla a continuación, calcule:}
+        
+        \begin{itemize}
+			\item[A)]	El valor inicial del bien.
+            \item[B)]	El valor final del bien.
+            \item[C)]	El valor residual del bien al segundo año.
+            \item[D)]	La cuota de amortización aplicable al bien en el último año.
+		\end{itemize}
+        
+        \begin{table}[H]
+        \centering
+        	\begin{tabular}{ | l | l | }
+            	\hline
+            	Valor de compra de un torno CNC						&	\$1.500.000	\\ \hline
+                Impuestos internos y Aranceles						&	30\% CIF	\\ \hline
+                Gastos de transporte desde la Aduana a la planta	&	\$10.000	\\ \hline
+                Gastos de puesta en marcha							&	\$25.000	\\ \hline
+                Valor de reventa final								&	\$300.000	\\ \hline
+                Gastos por desmantelación del bien					&	\$5.000		\\ \hline
+                Gastos comerciales hasta la venta definitiva		&	\$10.000	\\ \hline
+                Sistema de amortización								&	Creciente	\\ \hline
+                Vida útil económica									&	4 años		\\ \hline
+			\end{tabular}
+		\end{table}
+        
+        A) El valor inicial del bien. Según (\ref{valor_inicial}), vale:
+
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+            	Valor inicial	&=&		Valor de compra + Impuestos + Transporte + Puesta en marcha \\
+                Valor inicial	&=&		\$1.500.000 + 30\% $\cdot$ \$1.500.000 + \$10.000 + \$25.000 \\
+                Valor inicial	&=&		\textbf{\$1.985.000}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        B) El valor final del bien. Según (\ref{valor_final}), vale:
+
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+            	Valor final	&=&		Valor de reventa - Desmantelamiento - Alquiler para exposición \\
+                Valor final	&=&		\$300.000 - \$5.000 - \$10.000 \\
+                Valor final	&=&		\textbf{\$285.000}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        C) El valor residual del bien al segundo año. Para esto se deben calcular los valores de las cuotas y residuales para cada año, sabiendo que la viuda útil económica de la máquina son 4 años y el sistema de cuotas es alemán.
+        
+        \begin{align*}
+        	Denominador = \sum_{1}^{4} n = 10
+		\end{align*}
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+            	Valor amortizable	&=&		Valor inicial - Valor final \\
+                Valor amortizable	&=&		\$1.500.000 - \$300.000 \\
+                Valor amortizable	&=&		\textbf{\$1.700.000}
+			\end{tabular}
+		\end{table}
+        
+        \newpage
+        
+        \begin{table}[H]
+        \centering
+        	\begin{tabular}{ | c | c | c | c | }
+            	\hline
+                Cuota	&	Fracción de Va	&	Cálculo						&	Valor		\\ \hline
+                Cuota 1	&	1/10			&	1/10 $\cdot$ \$1.700.000	&	\$170.000	\\ \hline
+                Cuota 2	&	2/10			&	2/10 $\cdot$ \$1.700.000	&	\$340.000	\\ \hline
+                Cuota 3	&	3/10			&	3/10 $\cdot$ \$1.700.000	&	\$510.000	\\ \hline
+                Cuota 4	&	4/10			&	4/10 $\cdot$ \$1.700.000	&	\$680.000	\\ \hline
+			\end{tabular}
+		\end{table}
+        
+        \begin{table}[H]
+        \centering
+        	\begin{tabular}{ | c | c | c | }
+            	\hline
+                Valor residual		&	Cálculo									&	Valor			\\ \hline
+                Valor residual 1	&	\$1.985.000 - 1/10 $\cdot$ \$1.700.000	&	\$1.815.000		\\ \hline
+                Valor residual 2	&	\$1.985.000 - 3/10 $\cdot$ \$1.700.000	&	\$1.475.000		\\ \hline
+                Valor residual 3	&	\$1.985.000 - 6/10 $\cdot$ \$1.700.000	&	\$965.000		\\ \hline
+                Valor residual 4	&	\$1.985.000 - 10/10 $\cdot$ \$1.700.000	&	\$285.00		\\ \hline
+			\end{tabular}
+		\end{table}
+        
+        \par{
+        	El valor residual del bien al segundo año es de \textbf{\$1.475.000}
+            }
+		
+        \hrulefill
+        
+        D) La cuota de amortización aplicable al bien en el último año es de \textbf{\$680.000}
+        
+        \hrulefill
+        
+        \par{
+        	Gráfico de la evolución del valor del bien
+            }
+		
+        \begin{center}
+        \begin{tikzpicture}[scale = 2]
+        	% Ejes
+			\draw[<-] (0,4.5) -- ++ (0,-4.5);
+            \draw[<-] (5,0) -- ++ (-5,0);
+            % Valores residuales
+            \draw (0,4) circle (0.075cm);
+            \draw (1,3.66) circle (0.075cm);
+            \draw (2,2.97) circle (0.075cm);
+            \draw (3,1.94) circle (0.075cm);
+            \draw (4,0.57) circle (0.075cm);
+            % Lineas auxiliares en X
+            \draw[dashed] (1,0) -- ++ (0,3.66);
+            \draw[dashed] (2,0) -- ++ (0,2.97);
+            \draw[dashed] (3,0) -- ++ (0,1.94);
+            \draw[dashed] (4,0) -- ++ (0,0.57);
+            % Lineas auxiliares en X
+            \draw[dashed] (0,3.66) -- ++ (1,0);
+            \draw[dashed] (0,2.97) -- ++ (2,0);
+            \draw[dashed] (0,1.94) -- ++ (3,0);
+            \draw[dashed] (0,0.57) -- ++ (4,0);
+            % Nombres
+            \node[right] at (5,0) {Años};
+            \node[right] at (0,4.5) {Valor monetario};
+            \node[left] at (-0.1,4) {\$1.985.000};
+            \node[left] at (-0.1,3.66) {\$1.815.000};
+            \node[left] at (-0.1,2.97) {\$1.475.000};
+            \node[left] at (-0.1,1.94) {\$965.000};
+            \node[left] at (-0.1,0.57) {\$285.000};
+            \node[below] at (1,0) {Año 1};
+            \node[below] at (2,0) {Año 2};
+            \node[below] at (3,0) {Año 3};
+            \node[below] at (4,0) {Año 4};
+            % Linea de cuota creciente
+            \draw[green, dashed, very thick] (0,4) -- (1,3.66) -- (2,2.97) -- (3,1.94) -- (4,0.57);
+            \node[right, green] at (3,3) {Cuota creciente};
+            % Linea de cuota fija
+            \draw[red, dashed, very thick] (0,4) -- (4,0.57);
+            \node[left, red] at (2,2.25) {Cuota fija};
+		\end{tikzpicture}
+		\end{center}
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        \newpage
+    
+    	\subsubsection{Ejercicio 4}
+        
+        \consigna{Dada la información que se detalla a continuación, calcule:}
+        
+        \begin{itemize}
+			\item[A)]	El valor inicial del bien.
+            \item[B)]	El valor final del bien.
+            \item[C)]	El valor residual del bien al iniciar el tercer año.
+            \item[D)]	La cuota de amortización aplicable al bien en el último año.
+		\end{itemize}
+        
+        \begin{table}[H]
+        \centering
+        	\begin{tabular}{ | l | l | }
+            	\hline
+            	Valor de compra de un software integrado de gestión		&	\$100.000	\\ \hline
+                Gastos de puesta en marcha								&	\$10.000	\\ \hline
+                Valor de reventa final									&	\$5.000		\\ \hline
+                Gastos por desmantelación del bien						&	\$2.000		\\ \hline
+                Sistema de amortización									&	Decreciente	\\ \hline
+                Vida útil económica										&	4 años		\\ \hline
+                Vida útil tecnológica									&	10 años		\\ \hline
+			\end{tabular}
+		\end{table}
+        
+        A) El valor inicial del bien. Según (\ref{valor_inicial}), vale:
+
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+            	Valor inicial	&=&		Valor de compra + Impuestos + Transporte + Puesta en marcha \\
+                Valor inicial	&=&		\$100.000 + 0 + 0 + \$10.000 \\
+                Valor inicial	&=&		\textbf{\$110.000}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        B) El valor final del bien. Según (\ref{valor_final}), vale:
+
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+            	Valor final	&=&		Valor de reventa - Desmantelamiento - Alquiler para exposición \\
+                Valor final	&=&		\$5.000 - \$2.000 - 0 \\
+                Valor final	&=&		\textbf{\$3.000}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        C) El valor residual del bien al segundo año. Para esto se deben calcular los valores de las cuotas y residuales para cada año, sabiendo que la viuda útil económica de la máquina son 4 años y el sistema de cuotas es francés.
+        
+        \begin{align*}
+        	Denominador = \sum_{1}^{4} n = 10
+		\end{align*}
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+            	Valor amortizable	&=&		Valor inicial - Valor final \\
+                Valor amortizable	&=&		\$110.000 - \$3.000 \\
+                Valor amortizable	&=&		\textbf{\$107.000}
+			\end{tabular}
+		\end{table}
+        
+        \newpage
+        
+        \begin{table}[H]
+        \centering
+        	\begin{tabular}{ | c | c | c | c | }
+            	\hline
+                Cuota	&	Fracción de Va	&	Cálculo					&	Valor		\\ \hline
+                Cuota 1	&	4/10			&	4/10 $\cdot$ \$107.000	&	\$42.800	\\ \hline
+                Cuota 2	&	3/10			&	3/10 $\cdot$ \$107.000	&	\$32.100	\\ \hline
+                Cuota 3	&	2/10			&	2/10 $\cdot$ \$107.000	&	\$21.400	\\ \hline
+                Cuota 4	&	1/10			&	1/10 $\cdot$ \$107.000	&	\$10.700	\\ \hline
+			\end{tabular}
+		\end{table}
+        
+        \begin{table}[H]
+        \centering
+        	\begin{tabular}{ | c | c | c | }
+            	\hline
+                Valor residual		&	Cálculo								&	Valor		\\ \hline
+                Valor residual 1	&	\$110.000 - 4/10 $\cdot$ \$107.000	&	\$67.200	\\ \hline
+                Valor residual 2	&	\$110.000 - 7/10 $\cdot$ \$107.000	&	\$35.100	\\ \hline
+                Valor residual 3	&	\$110.000 - 9/10 $\cdot$ \$107.000	&	\$13.700	\\ \hline
+                Valor residual 4	&	\$110.000 - 10/10 $\cdot$ \$107.000	&	\$3.000		\\ \hline
+			\end{tabular}
+		\end{table}
+        
+        \par{
+        	El valor residual del bien al iniciar el tercer año es de \textbf{\$35.100}
+            }
+		
+        \hrulefill
+        
+        D) La cuota de amortización aplicable al bien en el último año es de \textbf{\$10.700}
+        
+        \hrulefill
+        
+        \par{
+        	Gráfico de la evolución del valor del bien
+            }
+		
+        \begin{center}
+        \begin{tikzpicture}[scale = 2]
+        	% Ejes
+			\draw[<-] (0,4.5) -- ++ (0,-4.5);
+            \draw[<-] (5,0) -- ++ (-5,0);
+            % Valores residuales
+            \draw (0,4) circle (0.075cm);
+            \draw (1,2.44) circle (0.075cm);
+            \draw (2,1.27) circle (0.075cm);
+            \draw (3,0.5) circle (0.075cm);
+            \draw (4,0.1) circle (0.075cm);
+            % Lineas auxiliares en X
+            \draw[dashed] (1,0) -- ++ (0,2.44);
+            \draw[dashed] (2,0) -- ++ (0,1.27);
+            \draw[dashed] (3,0) -- ++ (0,0.5);
+            \draw[dashed] (4,0) -- ++ (0,0.1);
+            % Lineas auxiliares en Y
+            \draw[dashed] (0,2.44) -- ++ (1,0);
+            \draw[dashed] (0,1.27) -- ++ (2,0);
+            \draw[dashed] (0,0.5) -- ++ (3,0);
+            \draw[dashed] (0,0.1) -- ++ (4,0);
+            % Nombres
+            \node[right] at (5,0) {Años};
+            \node[right] at (0,4.5) {Valor monetario};
+            \node[left] at (-0.1,4) {\$110.000};
+            \node[left] at (-0.1,2.44) {\$67.200};
+            \node[left] at (-0.1,1.27) {\$35.100};
+            \node[left] at (-0.1,0.5) {\$13.700};
+            \node[left] at (-0.1,0.1) {\$3.000};
+            \node[below] at (1,0) {Año 1};
+            \node[below] at (2,0) {Año 2};
+            \node[below] at (3,0) {Año 3};
+            \node[below] at (4,0) {Año 4};
+            % Linea de cuota creciente
+            \draw[violet, dashed, very thick] (0,4) -- (1,2.44) -- (2,1.27) -- (3,0.5) -- (4,0.1);
+            \node[left, violet] at (2,1) {Cuota decreciente};
+            % Linea de cuota fija
+            \draw[red, dashed, very thick] (0,4) -- (4,0.1);
+            \node[right, red] at (2.5,2.25) {Cuota fija};
+		\end{tikzpicture}
+		\end{center}
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        \newpage
+    
+    	\subsubsection{Ejercicio 5}
+        
+        \consigna{Dada la información que se detalla a continuación, calcule:}
+        
+        \begin{itemize}
+			\item[A)]	El valor inicial del bien.
+            \item[B)]	El valor amortizable del bien.
+            \item[C)]	El valor residual del bien al segundo año.
+            \item[D)]	La cuota de amortización aplicable al bien en el último año.
+            \item[E)]	Analice qué pasó si el valor residual real del segundo año es de \$100.000.
+		\end{itemize}
+        
+        \begin{table}[H]
+        \centering
+        	\begin{tabular}{ | l | l | }
+            	\hline
+                Valor residual al finalizar el primer año	&	\$189.000	\\ \hline
+                Valor residual al finalizar el quinto año	&	\$35.000	\\ \hline
+                Sistema de amortización						&	Creciente	\\ \hline
+                Vida útil económica							&	5 años		\\ \hline
+                Vida útil tecnológica						&	10 años		\\ \hline
+			\end{tabular}
+		\end{table}
+        
+        \par{\hspace{0.5cm}
+        	Teniendo los datos de los valores residuales en 2 años distintos, lo que se hace es plantear un sistema de 2 ecuaciones con 2 incógnitas: El valor inicial y el valor amortizable.
+            }
+		
+        \begin{center}
+        $
+        \lbrace
+		\begin{array}{ l c l }
+            \text{Valor residual al segundo año} &=& \text{Valor inicial} - \text{1/15} \cdot \text{Valor amortizable} \\
+            \text{Valor residual al quinto año} &=& \text{Valor inicial} - \text{15/15} \cdot \text{Valor amortizable}
+		\end{array}
+        $
+        \end{center}
+        
+        \par{\hspace{0.5cm}
+        	Reemplazando los valores
+        	}
+        
+        \begin{center}
+        $
+        \lbrace
+		\begin{array}{ l c l }
+            \$189,000 &=& Vi - 1/15 \cdot Va \\
+            \$35,000 &=& Vi - Va
+		\end{array}
+        $
+        \end{center}
+        
+        \par{\hspace{0.5cm}
+        	Sólo resta despejar y calcular los valores
+        	}
+        
+        \hrulefill
+        
+        A) El valor inicial del bien es de \textbf{\$200.000}
+        
+        \hrulefill
+        
+        B) El valor amortizable del bien es de \textbf{\$165.000}
+        
+        \hrulefill
+        
+        C) El valor residual del bien al segundo año. Para esto se deben calcular los valores de las cuotas y residuales para cada año, sabiendo que la viuda útil económica del bien son 5 años y el sistema de cuotas es alemán.
+        
+        \begin{align*}
+        	Denominador = \sum_{1}^{5} n = 15
+		\end{align*}
+        
+        \newpage
+        
+        \begin{table}[H]
+        \centering
+        	\begin{tabular}{ | c | c | c | c | }
+            	\hline
+                Cuota	&	Fracción de Va	&	Cálculo					&	Valor		\\ \hline
+                Cuota 1	&	1/15			&	1/15 $\cdot$ \$165.000	&	\$11.000	\\ \hline
+                Cuota 2	&	2/15			&	2/15 $\cdot$ \$165.000	&	\$22.000	\\ \hline
+                Cuota 3	&	3/15			&	3/15 $\cdot$ \$165.000	&	\$33.000	\\ \hline
+                Cuota 4	&	4/15			&	4/15 $\cdot$ \$165.000	&	\$44.000	\\ \hline
+                Cuota 5	&	5/15			&	5/15 $\cdot$ \$165.000	&	\$55.000	\\ \hline
+			\end{tabular}
+		\end{table}
+        
+        \begin{table}[H]
+        \centering
+        	\begin{tabular}{ | c | c | c | }
+            	\hline
+                Valor residual		&	Cálculo								&	Valor			\\ \hline
+                Valor residual 1	&	\$200.000 - 1/15 $\cdot$ \$165.000	&	\$189.000		\\ \hline
+                Valor residual 2	&	\$200.000 - 3/15 $\cdot$ \$165.000	&	\$167.000		\\ \hline
+                Valor residual 3	&	\$200.000 - 6/15 $\cdot$ \$165.000	&	\$134.000		\\ \hline
+                Valor residual 4	&	\$200.000 - 10/15 $\cdot$ \$165.000	&	\$90.000		\\ \hline
+                Valor residual 5	&	\$200.000 - 15/15 $\cdot$ \$165.000	&	\$35.000		\\ \hline
+			\end{tabular}
+		\end{table}
+        
+        \par{
+        	El valor residual del bien al segundo año es de \textbf{\$189.000}
+            }
+		
+        \hrulefill
+        
+        D) La cuota de amortización aplicable al bien en el último año es de \textbf{\$55.000}
+        
+        \hrulefill
+        
+        E) El valor residual del segundo año es de \$167.000. Si el real fuese de \$100.000, significa una descapitalización de \textbf{\$67.000}. Esto se puede deber a un mal prorrateo de los costos.
+        
+        \hrulefill
+        
+        \par{
+        	Gráfico de la evolución del valor del bien
+            }
+		
+        \begin{center}
+        \begin{tikzpicture}[scale = 2]
+        	% Ejes
+			\draw[<-] (0,4.5) -- ++ (0,-4.5);
+            \draw[<-] (6,0) -- ++ (-6,0);
+            % Valores residuales
+            \draw (0,4) circle (0.075cm);
+            \draw (1,3.78) circle (0.075cm);
+            \draw (2,3.34) circle (0.075cm);
+            \draw (3,2.68) circle (0.075cm);
+            \draw (4,1.8) circle (0.075cm);
+            \draw (5,0.7) circle (0.075cm);
+            % Lineas auxiliares en X
+            \draw[dashed] (1,0) -- ++ (0,3.78);
+            \draw[dashed] (2,0) -- ++ (0,3.34);
+            \draw[dashed] (3,0) -- ++ (0,2.68);
+            \draw[dashed] (4,0) -- ++ (0,1.8);
+            \draw[dashed] (5,0) -- ++ (0,0.7);
+            % Lineas auxiliares en X
+            \draw[dashed] (0,3.78) -- ++ (1,0);
+            \draw[dashed] (0,3.34) -- ++ (2,0);
+            \draw[dashed] (0,2.68) -- ++ (3,0);
+            \draw[dashed] (0,1.8) -- ++ (4,0);
+            \draw[dashed] (0,0.7) -- ++ (5,0);
+            % Nombres
+            \node[right] at (6,0) {Años};
+            \node[right] at (0,4.5) {Valor monetario};
+            \node[left] at (-0.1,4) {\$200.000};
+            \node[left] at (-0.1,3.78) {\$189.000};
+            \node[left] at (-0.1,3.34) {\$167.000};
+            \node[left] at (-0.1,2.68) {\$134.000};
+            \node[left] at (-0.1,1.8) {\$90.000};
+            \node[left] at (-0.1,0.7) {\$35.000};
+            \node[below] at (1,0) {Año 1};
+            \node[below] at (2,0) {Año 2};
+            \node[below] at (3,0) {Año 3};
+            \node[below] at (4,0) {Año 4};
+            \node[below] at (5,0) {Año 5};
+            % Linea de cuota creciente
+            \draw[green, dashed, very thick] (0,4) -- (1,3.78) -- (2,3.34) -- (3,2.68) -- (4,1.8) -- (5,0.7);
+            \node[right, green] at (3,3) {Cuota creciente};
+            % Linea de cuota fija
+            \draw[red, dashed, very thick] (0,4) -- (5,0.7);
+            \node[left, red] at (2,2.25) {Cuota fija};
+		\end{tikzpicture}
+		\end{center}
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        \newpage
+    
+    	\subsubsection{Ejercicio 6}
+        
+        \consigna{Dada la información que se detalla a continuación, calcule:}
+        
+        \begin{itemize}
+			\item[A)]	El valor inicial del bien.
+            \item[B)]	El valor amortizable del bien.
+            \item[C)]	El valor residual del bien al finalizar el cuarto año.
+            \item[D)]	La cuota de amortización aplicable al bien en el último año.
+            \item[E)]	Analice qué pasó si el valor residual real del segundo año es de \$100.000.
+		\end{itemize}
+        
+        \begin{table}[H]
+        \centering
+        	\begin{tabular}{ | l | l | }
+            	\hline
+                Valor residual al finalizar el primer año	&	\$200.000	\\ \hline
+                Valor residual al finalizar el quinto año	&	\$50.000	\\ \hline
+                Sistema de amortización						&	Decreciente	\\ \hline
+                Vida útil económica							&	5 años		\\ \hline
+                Vida útil tecnológica						&	10 años		\\ \hline
+			\end{tabular}
+		\end{table}
+        
+        \par{\hspace{0.5cm}
+        	Teniendo los datos de los valores residuales en 2 años distintos, lo que se hace es plantear un sistema de 2 ecuaciones con 2 incógnitas: El valor inicial y el valor amortizable.
+            }
+		
+        \begin{center}
+        $
+        \lbrace
+		\begin{array}{ l c l }
+            \text{Valor residual al primer año} &=& \text{Valor inicial} - \text{5/15} \cdot \text{Valor amortizable} \\
+            \text{Valor residual al quinto año} &=& \text{Valor inicial} - \text{15/15} \cdot \text{Valor amortizable}
+		\end{array}
+        $
+        \end{center}
+        
+        \par{\hspace{0.5cm}
+        	Reemplazando los valores
+        	}
+        
+        \begin{center}
+        $
+        \lbrace
+		\begin{array}{ l c l }
+            \$200,000 &=& Vi - 5/15 \cdot Va \\
+            \$50,000 &=& Vi - Va
+		\end{array}
+        $
+        \end{center}
+        
+        \par{\hspace{0.5cm}
+        	Sólo resta despejar y calcular los valores
+        	}
+        
+        \hrulefill
+        
+        A) El valor inicial del bien es de \textbf{\$275.000}
+        
+        \hrulefill
+        
+        B) El valor amortizable del bien es de \textbf{\$225.000}
+        
+        \hrulefill
+        
+        C) El valor residual del bien al finalizar el cuarto año. Para esto se deben calcular los valores de las cuotas y residuales para cada año, sabiendo que la viuda útil económica del bien son 5 años y el sistema de cuotas es francés.
+        
+        \begin{align*}
+        	Denominador = \sum_{1}^{5} n = 15
+		\end{align*}
+        
+        \newpage
+        
+        \begin{table}[H]
+        \centering
+        	\begin{tabular}{ | c | c | c | c | }
+            	\hline
+                Cuota	&	Fracción de Va	&	Cálculo					&	Valor		\\ \hline
+                Cuota 1	&	5/15			&	5/15 $\cdot$ \$225.000	&	\$75.000	\\ \hline
+                Cuota 2	&	4/15			&	4/15 $\cdot$ \$225.000	&	\$60.000	\\ \hline
+                Cuota 3	&	3/15			&	3/15 $\cdot$ \$225.000	&	\$45.000	\\ \hline
+                Cuota 4	&	2/15			&	2/15 $\cdot$ \$225.000	&	\$30.000	\\ \hline
+                Cuota 5	&	1/15			&	1/15 $\cdot$ \$225.000	&	\$15.000	\\ \hline
+			\end{tabular}
+		\end{table}
+        
+        \begin{table}[H]
+        \centering
+        	\begin{tabular}{ | c | c | c | }
+            	\hline
+                Valor residual		&	Cálculo								&	Valor			\\ \hline
+                Valor residual 1	&	\$275.000 - 5/15 $\cdot$ \$225.000	&	\$200.000		\\ \hline
+                Valor residual 2	&	\$275.000 - 9/15 $\cdot$ \$225.000	&	\$140.000		\\ \hline
+                Valor residual 3	&	\$275.000 - 12/15 $\cdot$ \$225.000	&	\$95.000		\\ \hline
+                Valor residual 4	&	\$275.000 - 14/15 $\cdot$ \$225.000	&	\$65.000		\\ \hline
+                Valor residual 5	&	\$275.000 - 15/15 $\cdot$ \$225.000	&	\$50.000		\\ \hline
+			\end{tabular}
+		\end{table}
+        
+        \par{
+        	El valor residual del bien al finalizar el cuarto año es de \textbf{\$65.000}
+            }
+		
+        \hrulefill
+        
+        D) La cuota de amortización aplicable al bien en el último año es de \textbf{\$15.000}
+        
+        \hrulefill
+        
+        E) El valor residual del segundo año es de \$140.000. Si el real fuese de \$100.000, significa una descapitalización de \textbf{\$40.000}. Esto se puede deber a un mal prorrateo de los costos.
+        
+        \hrulefill
+        
+        \par{
+        	Gráfico de la evolución del valor del bien
+            }
+		
+        \begin{center}
+        \begin{tikzpicture}[scale = 2]
+        	% Ejes
+			\draw[<-] (0,4.5) -- ++ (0,-4.5);
+            \draw[<-] (6,0) -- ++ (-6,0);
+            % Valores residuales
+            \draw (0,4) circle (0.075cm);
+            \draw (1,2.9) circle (0.075cm);
+            \draw (2,2) circle (0.075cm);
+            \draw (3,1.38) circle (0.075cm);
+            \draw (4,0.95) circle (0.075cm);
+            \draw (5,0.7) circle (0.075cm);
+            % Lineas auxiliares en X
+            \draw[dashed] (1,0) -- ++ (0,2.9);
+            \draw[dashed] (2,0) -- ++ (0,2);
+            \draw[dashed] (3,0) -- ++ (0,1.38);
+            \draw[dashed] (4,0) -- ++ (0,0.95);
+            \draw[dashed] (5,0) -- ++ (0,0.7);
+            % Lineas auxiliares en X
+            \draw[dashed] (0,2.9) -- ++ (1,0);
+            \draw[dashed] (0,2) -- ++ (2,0);
+            \draw[dashed] (0,1.38) -- ++ (3,0);
+            \draw[dashed] (0,0.95) -- ++ (4,0);
+            \draw[dashed] (0,0.7) -- ++ (5,0);
+            % Nombres
+            \node[right] at (6,0) {Años};
+            \node[right] at (0,4.5) {Valor monetario};
+            \node[left] at (-0.1,4) {\$275.000};
+            \node[left] at (-0.1,2.9) {\$200.000};
+            \node[left] at (-0.1,2) {\$140.000};
+            \node[left] at (-0.1,1.38) {\$95.000};
+            \node[left] at (-0.1,0.95) {\$65.000};
+            \node[left] at (-0.1,0.7) {\$50.000};
+            \node[below] at (1,0) {Año 1};
+            \node[below] at (2,0) {Año 2};
+            \node[below] at (3,0) {Año 3};
+            \node[below] at (4,0) {Año 4};
+            \node[below] at (5,0) {Año 5};
+            % Linea de cuota creciente
+            \draw[violet, dashed, very thick] (0,4) -- (1,2.9) -- (2,2) -- (3,1.38) -- (4,0.95) -- (5,0.7);
+            \node[above left, violet] at (2,1) {Cuota decreciente};
+            % Linea de cuota fija
+            \draw[red, dashed, very thick] (0,4) -- (5,0.7);
+            \node[right, red] at (2.5,2.5) {Cuota fija};
+		\end{tikzpicture}
+		\end{center}
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        \newpage
+    
+    	\subsubsection{Ejercicio 7}
+        
+        \consigna{Dada la información que se detalla a continuación, calcule:}
+        
+        \begin{itemize}
+			\item[A)]	El valor amortizable del bien.
+            \item[B)]	El valor de la cuota de amortización.
+            \item[C)]	El valor de libros del bien en el tercer año.
+            \item[D)]	Indique las consecuencias para la empresa si el valor residual real en el tercer año hubiera sido de \$50.000.
+            \item[E)]	Analice lo sucedido al capital de la empresa si el producto que fabrica se hubiera discontinuado en el tercer año
+		\end{itemize}
+        
+        \begin{table}[H]
+        \centering
+        	\begin{tabular}{ | l | l | }
+            	\hline
+                Bien de capital fijo		&				\\ \hline
+                Valor inicial				&	\$100.000	\\ \hline
+                Valor final					&	\$20.000	\\ \hline
+                Sistema de amortización		&	Lineal		\\ \hline
+                Vida útil económica			&	4 años		\\ \hline
+			\end{tabular}
+		\end{table}
+        
+        A) El valor amortizable del bien
+        
+        \begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+            	Valor amortizable	&=&		Valor inicial - Valor final \\
+                Valor amortizable	&=&		\$100.000 - \$20.000 \\
+                Valor amortizable	&=&		\textbf{\$80.000}
+			\end{tabular}
+		\end{table}
+        
+        B) El valor de la cuota de amortización
+        
+        \begin{align*}
+        	Denominador = \sum_{1}^{4} n = 10
+		\end{align*}
+        
+        \begin{table}[H]
+        \centering
+        	\begin{tabular}{ | c | c | c | c | }
+            	\hline
+                Cuota	&	Fracción de Va	&	Cálculo					&	Valor		\\ \hline
+                Cuota X	&	2.5/10			&	2.5/10 $\cdot$ \$80.000	&	\textbf{\$20.000}	\\ \hline
+			\end{tabular}
+		\end{table}
+        
+        C) El valor de libros del bien en el tercer año
+        
+        \begin{table}[H]
+        \centering
+        	\begin{tabular}{ | c | c | c | }
+            	\hline
+                Valor residual		&	Cálculo								&	Valor		\\ \hline
+                Valor residual 1	&	\$100.000 - 2.5/10 $\cdot$ \$80.000	&	\$80.000	\\ \hline
+                Valor residual 2	&	\$100.000 - 5/10 $\cdot$ \$80.000	&	\$60.000	\\ \hline
+                Valor residual 3	&	\$100.000 - 7.5/10 $\cdot$ \$80.000	&	\$40.000	\\ \hline
+                Valor residual 4	&	\$100.000 - 10/10 $\cdot$ \$80.000	&	\$20.00		\\ \hline
+			\end{tabular}
+		\end{table}
+        
+        \par{
+        	El valor residual del bien al tercer año es de \textbf{\$40.000}
+            }
+		
+        \newpage
+        
+        D) El valor residual del segundo año es de \$40.000. Si el real fuese de \$50.000, significa una capitalización de \textbf{\$10.000}. Esto se puede deber a un mal prorrateo de los costos.
+        
+        \hrulefill
+        
+        E) Falta
+        
+        \hrulefill
+        
+        \par{
+        	Gráfico de la evolución del valor del bien
+            }
+		
+        \begin{center}
+        \begin{tikzpicture}[scale = 2]
+        	% Ejes
+			\draw[<-] (0,4.5) -- ++ (0,-4.5);
+            \draw[<-] (5,0) -- ++ (-5,0);
+            % Valores residuales
+            \draw (0,4) circle (0.075cm);
+            \draw (1,3.2) circle (0.075cm);
+            \draw (2,2.4) circle (0.075cm);
+            \draw (3,1.6) circle (0.075cm);
+            \draw (4,0.8) circle (0.075cm);
+            % Lineas auxiliares en X
+            \draw[dashed] (1,0) -- ++ (0,3.2);
+            \draw[dashed] (2,0) -- ++ (0,2.4);
+            \draw[dashed] (3,0) -- ++ (0,1.6);
+            \draw[dashed] (4,0) -- ++ (0,0.8);
+            % Lineas auxiliares en X
+            \draw[dashed] (0,3.2) -- ++ (1,0);
+            \draw[dashed] (0,2.4) -- ++ (2,0);
+            \draw[dashed] (0,1.6) -- ++ (3,0);
+            \draw[dashed] (0,0.8) -- ++ (4,0);
+            % Nombres
+            \node[right] at (5,0) {Años};
+            \node[right] at (0,4.5) {Valor monetario};
+            \node[left] at (-0.1,4) {\$100.000};
+            \node[left] at (-0.1,3.2) {\$80.000};
+            \node[left] at (-0.1,2.4) {\$60.000};
+            \node[left] at (-0.1,1.6) {\$40.000};
+            \node[left] at (-0.1,0.8) {\$20.000};
+            \node[below] at (1,0) {Año 1};
+            \node[below] at (2,0) {Año 2};
+            \node[below] at (3,0) {Año 3};
+            \node[below] at (4,0) {Año 4};
+            % Linea de cuota fija
+            \draw[red, dashed, very thick] (0,4) -- (4,0.8);
+            \node[right, red] at (2.5,2.25) {Cuota fija};
+		\end{tikzpicture}
+		\end{center}
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%
+        
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+
+Clase 4 - 03/09 \hrulefill
+
+\section{Renta nacional}
+
+	\subsection{Definiciones}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+	\definicion{
+    	Ésta se puede determinar a través de las cuentas nacionales por la suma de todos los valores agregados en todos los segmentos y rubros de las operaciones que lleva a cabo una nación (\textsl{Transacciones}).}
+    \par{
+    	Podemos determinar esta última definición a través del Producto Bruto Interno (\textbf{PBI}), y éste lo podemos obtener por el método de la producción, por el método de los ingresos o por el método de los gastos finales.}
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    \hrulefill
+    
+    \textbf{Método de la producción}
+    
+    \begin{align}
+		{PBI}_{apm} = \sum ( PB - Ins ) + G
+        \label{metodo_de_la_produccion}
+	\end{align}
+    
+    \begin{itemize}
+		\item ${PBI}_{apm}$: \textbf{P}roducto \textbf{B}ruto \textbf{I}nterno \textbf{a} \textbf{p}recio de \textbf{m}ercado.
+        
+        \item $PB$: \textbf{P}roducción \textbf{B}ruta.
+        
+        \item $Ins$: \textbf{I}ngresos.
+        
+        \item $\sum ( PB - Ins )$: Este término representa la suma de los valores agregados.
+	        Se tiene que colocar el símbolo de la sumatoria, porque el término engloba a todas las producciones brutas de cada sector, lo mismo con los ingresos.
+        	Sin embargo, en la mayoría de los ejercicios, el dato que se da ya es la sumatoria total, tanto de la producción como de los ingresos, con lo cual no haría falta colocar el símbolo de $\sum$ más que en el planteo inicial de la fórmula.
+        
+        \item $G$: \textbf{G}astos. Producto del gobierno
+        
+	\end{itemize}
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    \hrulefill
+    
+    \textbf{Método de los ingresos}
+    
+    \begin{align}
+		{PBI}_{apm} = \sum RFP + \sum ACF + \sum II - Sub + G
+        \label{metodo_de_los_ingresos}
+	\end{align}
+    
+    \begin{itemize}
+		\item $RFP$: \textbf{R}emuneración de los \textbf{F}actores de la \textbf{P}roducción.
+        	\begin{align}
+				RFP = Rentas + Salarios + Intereses + Beneficios
+			\end{align}
+            
+        \item $ACF$: \textbf{A}mortización del \textbf{C}apital \textbf{F}ijo.
+        
+        \item $II$: \textbf{I}mpuestos \textbf{I}ndirectos.
+        
+        \item $Sub$: Subsidios
+        
+	\end{itemize}
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    \newpage
+    
+    \textbf{Método del gasto final}
+    
+    \begin{align}
+		{PBI}_{apm} = \sum C + \sum IB + \sum {A}_{j} {E}_{xis} + \sum SBC + G
+        \label{metodo_del_gasto_final}
+	\end{align}
+    
+    \begin{itemize}
+		\item $C$: \textbf{C}onsumo.
+            
+        \item $IB$: \textbf{I}nversión \textbf{B}ruta.
+        
+        \item ${A}_{j} {E}_{xis}$: \textbf{Aj}uste por \textbf{Exis}tencia.
+        	\begin{align}
+				{A}_{j} {E}_{xis} = {Stock}_{Final} - {Stock}_{Inicial}
+			\end{align}
+        
+        \item $SBC$: \textbf{S}aldo de la \textbf{B}alanza \textbf{C}omercial
+        	\begin{align}
+				SBC = Exportaciones - Importaciones
+			\end{align}
+        
+	\end{itemize}
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    \hrulefill
+    
+    \par{
+    	Cualquiera de los 3 métodos da el mismo resultado.
+        Usualmente, el del gasto final (\ref{metodo_del_gasto_final}) es el más usado o empleado en los ejercicios, seguido del método de los ingresos (\ref{metodo_de_los_ingresos}).
+        El método de la producción (\ref{metodo_de_la_produccion}) no suele aparecer mucho.
+        }
+        
+    \par{
+    	Todas estas cuentas dan el valor del \textbf{P}roducto \textbf{B}ruto \textbf{I}nterno \textbf{a} \textbf{p}recio de \textbf{m}ercado.
+        Para expresarlo como \textbf{P}roducto \textbf{B}ruto \textbf{I}nterno \textbf{a} \textbf{c}osta de los \textbf{f}actores, se le deben restar los \textbf{I}mpuestos \textbf{I}ndirectos y sumarle los \textbf{Sub}sidios.
+        \begin{align}
+            {PBI}_{acf} = {PBI}_{apm} - II + Sub
+        \end{align}
+        }
+        
+    \par{
+    	Para obtener el \textbf{M}onto \textbf{T}otal de \textbf{B}ienes \textbf{D}isponibles, sólo hace falta restarle el \textbf{S}aldo de la \textbf{B}alanza \textbf{C}omercial al \textbf{P}roducto \textbf{B}ruto \textbf{I}nterno \textbf{a} \textbf{p}recio de \textbf{m}ercado.
+        \begin{align}
+            {MTBD} = {PBI}_{apm} - SBC
+            \label{monto_total_bienes_disponibles}
+        \end{align}
+    	}
+        
+    \par{
+    	Otro término utilizado en las ecuaciones que no fué presentado, es el \textbf{S}aldo de la \textbf{B}alanza de \textbf{P}agos, que representa la diferencia de giros del exterior respecto de los giros al exterior
+        \begin{align}
+            SBP = \text{Giros \textbf{del} exterior} - \text{Giros \textbf{al} exterior}
+        \end{align}
+    	}
+        
+    \hrulefill
+        
+    %%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    \subsection{Conversiones}
+    
+    	\par{
+        	Cualquier término puede ser expresado en \textbf{B}ruto o en \textbf{N}eto, como \textbf{I}nterno o como \textbf{N}acional, y \textbf{a} \textbf{p}recio de \textbf{m}ercado o \textbf{a} \textbf{c}osta de los \textbf{f}actores.
+            Por lo tanto, conviene resumir las formas de conversión en la siguiente tabla:
+        	}
+            
+        \begin{table}[H]
+		\centering
+        	\begin{tabular}{ | c | c | }
+            	\hline
+				Pasaje & Término a agregar\\ \hline
+                
+                De \textcolor{green}{\textbf{B}}ruto a \textcolor{green}{\textbf{N}}eto, ambos \textbf{apm} & $ \textcolor{green}{\textbf{N}}eto = \textcolor{green}{\textbf{B}}ruto   \textcolor{green}{ - ACF} $ \\ \hline
+                
+                De \textcolor{red}{\textbf{apm}} a \textcolor{red}{\textbf{acf}} & $ X_{\textcolor{red}{acf}} = X_{\textcolor{red}{apm}} \textcolor{red}{ - II + Sub} $ \\ \hline
+                
+                De \textcolor{orange}{\textbf{I}}nterno a \textcolor{orange}{\textbf{N}}acional & $ \textcolor{orange}{\textbf{N}}acional = \textcolor{orange}{\textbf{I}}nterno \textcolor{orange}{ + SBP} $ \\ \hline
+            \end{tabular}
+		\end{table}
+        
+    %%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    \newpage
+    
+    \subsection{Guía de ejercicios - Renta nacional}
+    
+    	%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    	\subsubsection{Aclaraciones}
+        
+        \par{\hspace{0.5cm}
+        	En estos ejercicios, la empresa que se describe es una vitivinícola.
+            Los sectores enunciados se corresponden con:
+            \begin{itemize}
+				\item Sector 1: Es el empresario que se dedica a la explotación vitivinícola.
+                
+                \item Sector 2: Es la bodega que adquiere la producción del sector 1 y la somete a su proceso de transformación.
+                
+                \item Sector 3: Adquiere la totalidad de la producción y la comercializa en el mercado interno.
+                
+                \item Sector 4: Aporta los insumos necesarios y la tecnología necesaria para la fabricación de los vinos. Es decir, abona la inversión bruta para el proceso completo de la producción.
+                
+			\end{itemize}
+            
+            Mientras no se aclare nada diferente, cuando se haga referencia al "Sector 3" (\textsl{Puede aparecer como Ventas en el mercado interno o Ventas del sector 3 }), se está haciendo referencia al dato del \textcolor{green}{\textbf{Consumo}}.
+            A la vez que el "sector 4" (\textsl{Puede aparecer como Producción bruta del sector 4, Ventas del sector 4 o como Compras de bienes de capital}) es el dato de la \textcolor{red}{\textbf{Inversión Bruta}}.
+            
+            Si no se informan los subsidios, se los escribe en la fórmula inicial y luego se reemplazan por cero.
+	        }
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    	\subsubsection{Ejercicio 1}
+        
+        \begin{table}[H]
+		\centering
+        	\begin{tabular}{ || l | c | c | c | c | c || }
+				\hline
+                & Sector 1 & Sector 2 & Sector 3 & Sector 4 & Total \\ \hline
+				Insumo: Stock inicial			& 50  & 20  & 50  &     & \textbf{120} \\ \hline
+                De empresa anterior				&     & 180 & 300 &     & 480 \\ \hline
+                De importación					& 10  &     &     & 150 & \textbf{160} \\ \hline \hline
+                Total de insumos				& 60  & 200 & 350 & 150 & \textbf{760} \\ \hline \hline
+                Rentas							& 30  & 55  & 50  & 20  & 155 \\ \hline
+                Salarios						& 40  & 65  & 60  & 30  & 195 \\ \hline
+                Intereses						& 30  & 55  & 50  & 20  & 155 \\ \hline
+                Beneficios						& 20  & 45  & 40  & 20  & 125 \\ \hline \hline
+                $\sum$ RFP						& 120 & 220 & 200 & 90  & \textbf{630} \\ \hline \hline
+                Amortización del Capital Fijo	& 25  & 45  & 15  & 55  & \textbf{140} \\ \hline
+                Impuestos Indirectos			& 10  & 20  & 40  & 10  & \textbf{80}  \\ \hline
+                Subsidios						& 5   & 5   & 5   & 5   & \textbf{20}  \\ \hline \hline
+                Producción Bruta				& 210 & 480 & 600 & \textcolor{red}{\textbf{300}} & \textbf{1.590} \\ \hline \hline
+                Ventas en el mercado interno	& 180 & 300 & \textcolor{green}{\textbf{570}} &     &  \\ \hline
+                Exportaciones					& 30  & 150 &     &     & \textbf{180} \\ \hline
+                Stock final						&     & 30  & 30  &     & \textbf{60} \\ \hline
+			\end{tabular}
+		\end{table}
+        
+        \begin{table}[H]
+		\centering
+        	\begin{tabular}{ || l p{8.7cm} c || }
+            	\hline
+				Giros al exterior && \textbf{20} \\ \hline
+                Giros del exterior && \textbf{5} \\ \hline
+                Producto del gobierno && \textbf{500} \\ \hline
+                Cantidad de habitantes && \textbf{100} \\ \hline
+			\end{tabular}
+		\end{table}
+        
+        \newpage
+        
+        \consigna{Deteminar:}
+        
+        \begin{itemize}
+			\item[A)] El Producto Bruto Interno a precio de mercado
+            
+            \item[B)] Demostrar Producción = Ingreso = Gasto Final
+            
+            \item[C)] El Producto Bruto Interno a costo de los factores
+            
+            \item[D)] El Producto Neto Interno a precio de mercado
+            
+            \item[E)] El Producto Neto Interno a costo de los factores
+            
+            \item[F)] El Producto Bruto Nacional a precio de mercado
+            
+            \item[G)] El Producto Bruto Nacional a costo de los factores
+            
+            \item[H)] El Producto Neto Nacional a precio de mercado
+            
+            \item[I)] El Producto Neto Nacional a costo de los factores
+            
+            \item[J)] La Inversión Neta Interna
+            
+            \item[K)] El Consumo de la población
+            
+            \item[L)] El Monto Total de los Bienes Disponibles
+            
+            \item[M)] El Ingreso Per Cápita
+            
+		\end{itemize}
+        
+        \hrulefill
+        
+        \vspace{0.4cm}
+        
+        A) El Producto Bruto Interno a precio de mercado por el método de la producción (\ref{metodo_de_la_produccion})
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ PBI_{apm} $ &=& $ \sum ( PB - Ins ) + G $ \\
+                $ PBI_{apm} $ &=& $ ( 1{.}590 - 760 ) + 500 $ \\
+                $ PBI_{apm} $ &=& \textbf{1.330}
+			\end{tabular}
+		\end{table}
+        
+        A) El Producto Bruto Interno a precio de mercado por el método de los ingresos (\ref{metodo_de_los_ingresos})
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ PBI_{apm} $ &=& $ \sum RFP + \sum ACF + \sum II - Sub + G $ \\
+                $ PBI_{apm} $ &=& $ 630 + 140 + 80 - 20 + 500 $ \\
+                $ PBI_{apm} $ &=& \textbf{1.330}
+			\end{tabular}
+		\end{table}
+        
+        A) El Producto Bruto Interno a precio de mercado por el método del gasto final (\ref{metodo_del_gasto_final})
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ PBI_{apm} $ &=& $ \sum C + \sum IB + \sum {A}_{j} {E}_{xis} + SBC + G $ \\
+                $ PBI_{apm} $ &=& $ 570 + 300 + ( 60 - 120 ) + ( 180 - 160 ) + 500 $ \\
+                $ PBI_{apm} $ &=& \textbf{1.330}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        B) En el punto anterior quedó demostrado que los 3 procedimientos arrojan el mismo resultado
+        
+        \newpage
+        
+        C) El Producto Bruto Interno a costo de los factores se puede calcular en base al $PBI_{apm}$ obtenido en A), realizando la conversión de $apm$ a $acf$.
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ PBI_{\textcolor{red}{acf}} $ &=& $ PBI_{\textcolor{red}{apm}} \textcolor{red}{- II + Sub} $ \\
+                $ PBI_{acf} $ &=& $ 1{.}330 - 80 + 20 $ \\
+                $ PBI_{acf} $ &=& \textbf{1.270}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        D) El Producto Neto Interno a precio de mercado se puede calcular en base al $PBI_{apm}$ obtenido en A), realizando la conversión de Bruto a Neto.
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ P\textcolor{green}{N}I_{apm} $ &=& $ P\textcolor{green}{B}I_{apm} \textcolor{green}{ - ACF} $ \\
+                $ PNI_{apm} $ &=& $ 1{.}330 - 140 $ \\
+                $ PNI_{apm} $ &=& \textbf{1.190}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        E) El Producto Neto Interno a costo de los factores se puede calcular en base al $PNI_{apm}$ obtenido en D), realizando la conversión de $apm$ a $acf$.
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ PNI_{\textcolor{red}{acf}} $ &=& $ PNI_{\textcolor{red}{apm}} \textcolor{red}{- II + Sub} $ \\
+                $ PNI_{acf} $ &=& $ 1{.}190 - 80 + 20 $ \\
+                $ PNI_{acf} $ &=& \textbf{1.130}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        F) El Producto Bruto Nacional a precio de mercado se puede calcular en base al $PBI_{apm}$ obtenido en A), realizando la conversión de Interno a Nacional.
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ PB\textcolor{orange}{N}_{apm} $ &=& $ PB\textcolor{orange}{I}_{apm} \textcolor{orange}{ + SBP } $ \\
+                $ PBN_{apm} $ &=& $ 1{.}330 + ( 5 - 20 ) $ \\
+                $ PBN_{apm} $ &=& \textbf{1.315}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        G) El Producto Bruto Nacional a costo de los factores se puede calcular en base al $PNI_{acf}$ obtenido en E), realizando la conversión de Neto a Bruto y de Interno a Nacional.
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ P\textcolor{green}{B}\textcolor{orange}{N}_{acf} $ &=& $ P\textcolor{green}{N}\textcolor{orange}{I}_{acf} \textcolor{green}{ + ACF} \textcolor{orange}{ + SBP } $ \\
+                $ PBN_{acf} $ &=& $ 1{.}130 + 140 + ( 5 - 20 ) $ \\
+                $ PBN_{acf} $ &=& \textbf{1.255}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        H) El Producto Neto Nacional a precio de mercado se puede calcular en base al $PBN_{apm}$ obtenido en F), realizando la conversión de Bruto a Neto.
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ P\textcolor{green}{N}N_{apm} $ &=& $ P\textcolor{green}{B}N_{apm} \textcolor{green}{ - ACF} $ \\
+                $ PNN_{apm} $ &=& $ 1{.}315 - 140 $ \\
+                $ PNN_{apm} $ &=& \textbf{1.175}
+			\end{tabular}
+		\end{table}
+        
+        \newpage
+        
+        I) El Producto Neto Nacional a costo de los factores se puede calcular en base al $PBN_{acf}$ obtenido en G), realizando la conversión de Bruto a Neto.
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ P\textcolor{green}{N}N_{acf} $ &=& $ P\textcolor{green}{B}N_{acf} \textcolor{green}{ - ACF} $ \\
+                $ PNN_{acf} $ &=& $ 1{.}255 - 140 $ \\
+                $ PNN_{acf} $ &=& \textbf{1.115}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        J) La Inversión Neta Interna se puede calcular en base a la Inversión Bruta, realizando la conversión de Bruto a Neto.
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ Y\textcolor{green}{N}I $ &=& $ I\textcolor{green}{B} \textcolor{green}{ - ACF} $ \\
+                $ YNI $ &=& $ 300 - 140 $ \\
+                $ YNI $ &=& \textbf{160}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        K) El Consumo de la población es un dato directo de la tabla
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+                $ C $ &=& \textbf{570}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        L) Monto Total de Bienes Disponibles.
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ MTBD $ &=& $ PBI_{apm} - SBC $ \\
+                $ MTBD $ &=& $ 1{.}330 - ( 180 + 160 ) $ \\
+                $ MTBD $ &=& \textbf{1.310}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        M) Ingreso Per Cápita
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+	            \vspace{0.3cm}
+               	$ IPC $ &=& $ \dfrac{PBI_{acf}}{Habitantes} $ \\ \vspace{0.3cm}
+                $ IPC $ &=& $ \dfrac{1{.}270}{100}$ \\
+                $ IPC $ &=& \textbf{12,7}
+			\end{tabular}
+		\end{table}
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        \newpage
+    
+    	\subsubsection{Ejercicio 2}
+        
+        \consigna{Exprese en términos monetarios el valor de las siguientes magnitudes macroeconómicas}
+        
+        \begin{table}[H]
+		\centering
+        	\begin{tabular}{ | l | c | c | c | c | }
+            \hline
+            						& Valores 	& $PBI_{acf}$ & $PBN_{apm}$ & $MTBD$ \\ \hline
+            Salarios				& \$30.000	& +\$30.000	& +\$30.000	& +\$30.000 \\ \hline
+            Rentas					& \$10.000	& +\$10.000	& +\$10.000	& +\$10.000 \\ \hline
+            Beneficios				& \$12.000	& +\$12.000	& +\$12.000	& +\$12.000 \\ \hline
+            Intereses				& \$8.000	& +\$8.000	& +\$8.000	& +\$8.000 \\ \hline
+            Producto del gobierno	& \$20.000	& +\$20.000	& +\$20.000	& +\$20.000 \\ \hline
+            Amort. del capital fijo	& \$14.000	& +\$14.000	& +\$14.000	& +\$14.000 \\ \hline
+            Impuestos directos		& \$7.000	&			&			& 			\\ \hline
+            Impuestos indirectos	& \$15.000	&			& +\$15.000	& +\$15.000	\\ \hline
+            Insumos					& \$20.000	&			&			& 			\\ \hline
+            Exportaciones			& \$6.000	&			&			& -\$6.000 \\ \hline
+            Importaciones			& \$5.000	&			&			& +\$5.000	\\ \hline
+            Giros al exterior		& \$10.000	&			& -\$10.000	& 			\\ \hline
+            Giros del exterior		& \$5.000	&			& +\$5.000	& 			\\ \hline
+            TOTAL					& \$162.000	& \$94.000	& \$104.000	& \$108.000	\\ \hline
+			\end{tabular}
+		\end{table}
+        
+        \par{
+        	Para completar la primer columna de $PBI_{acf}$, lo que hay que hacer es poner los términos que se usan para obtener el $PBI_{apm}$ mediante el método de los ingresos (\ref{metodo_de_los_ingresos}) y realizar la conversión de $apm$ a $acf$.
+            En la segunda, se plantea lo mismo y se realiza la conversión de Interno a Nacional y de $apm$ a $acf$.
+            Por último, para el $MTBD$, sólo hay que restarle el $SBC$ al $PBI_{apm}$
+        	}
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        \newpage
+    
+    	\subsubsection{Ejercicio 3}
+        
+        \consigna{Si un país presenta la siguiente información macroeconómica}
+        
+        \begin{table}[H]
+        \centering
+        	\begin{tabular}{ | l | c | c | l | c | c | }
+            \hline
+            Impuestos Indirectos	& 80	& \$año	& Inversión Bruta		& 150 & \$año \\ \hline
+            Amort. Capital Fijo		& 50	& \$año	& Variación de Stocks	& -30 & \$año \\ \hline
+            Producto del Gobierno	& 300	& \$año	& Saldo Balanza de Pagos &-150 & \$año \\ \hline
+            Subsidios				& 20	& \$año	& Saldo Balanza Comercial & 60 & \$año \\ \hline
+            Consumo					& 800	& \$año	& & & \\ \hline
+			\end{tabular}
+		\end{table}
+        
+        \begin{itemize}
+			\item[A)]	El Producto Bruto Interno a precio de mercado
+            \item[B)]	El Monto Total de Bienes Disponibles
+            \item[C)]	El Producto Neto Nacional a costo de los factores
+		\end{itemize}
+        
+        A) El Producto Bruto Interno a precio de mercado se calcula por el método del gasto final (\ref{metodo_del_gasto_final}).
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ PBI_{apm} $ &=& $ \sum C + \sum IB + \sum {A}_{j} {E}_{xis} + SBC + G $ \\
+                $ PBI_{apm} $ &=& $ 800 + 150 + ( -30 ) + ( 60 ) + 300 $ \\
+                $ PBI_{apm} $ &=& \textbf{1.280}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        B) Monto Total de Bienes Disponibles.
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ MTBD $ &=& $ PBI_{apm} - SBC $ \\
+                $ MTBD $ &=& $ 1{.}280 - ( 60 ) $ \\
+                $ MTBD $ &=& \textbf{1.220}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        C) El Producto Neto Nacional a costo de los factores se calcula con el $ PBI_{apm} $ obtenido en A), realizando la conversión de Bruto a Neto, de Interno a Nacional y de $apm$ a $acf$.
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ {P\textcolor{green}{N}\textcolor{orange}{N}}_{\textcolor{red}{acf}} $ &=& $ P\textcolor{green}{B}\textcolor{orange}{I}_{\textcolor{red}{apm}} \textcolor{red}{ - II + Sub} \textcolor{green}{ - ACF} \textcolor{orange}{ - SBP } $ \\
+                
+                $ {PNN}_{acf} $ &=& $ 1{.}280 -80 + 20 - 50 + ( -150 ) $ \\
+                
+                $ {PNN}_{acf} $ &=& \textbf{1.020}
+			\end{tabular}
+		\end{table}
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        \newpage
+    
+    	\subsubsection{Ejercicio 4}
+        
+        \consigna{Determine con la siguiente información los valores de las variables macroeconómicas que se detallan a continunación}
+        
+        \begin{itemize}
+			\item[A)]	El Producto Bruto Interno a precio de mercado
+			\item[B)]	El Producto Bruto Nacional a costo de factores
+            \item[C)]	El Monto Total de Bienes Disponibles
+            \item[D)]	El Producto Neto Interno a precio de mercado
+            \item[E)]	El Ingreso Buto Interno a costo de factores
+		\end{itemize}
+        
+        \begin{table}[H]
+        \centering
+        	\begin{tabular}{ | l | c | c | l | c | c | }
+            \hline
+            Ventas Sector 3		& 5.000	& \$año	& Impuestos Indirectos	& 180 & \$año \\ \hline
+            Ventas Sector 4		& 750	& \$año	& Amort. Capital Fijo	& 100 & \$año \\ \hline
+            Producto del Estado	& 400	& \$año	& Saldo Balanza de Pagos &-400 & \$año \\ \hline
+            Stock final			& 80	& \$año	& Importaciones			& 150 & \$año \\ \hline
+            Stock inicial		& 30	& \$año	& Exportaciones			& 250 & \$año \\ \hline
+            RFP					& 5.700	& \$año	& Subsidios				& 80 & \$año \\ \hline
+			\end{tabular}
+		\end{table}
+        
+        A) El Producto Bruto Interno a precio de mercado se calcula por el método del gasto final (\ref{metodo_del_gasto_final}).
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ PBI_{apm} $ &=& $ \sum C + \sum IB + \sum {A}_{j} {E}_{xis} + SBC + G $ \\
+                $ PBI_{apm} $ &=& $ 5{.}000 + 750 + ( 80 - 30 ) + ( 250 - 150 ) + 400 $ \\
+                $ PBI_{apm} $ &=& \textbf{6.300}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        B) El Producto Bruto Nacional a costo de los factores se calcula con el $ PBI_{apm} $ obtenido en A), realizando la conversión de Interno a Nacional y de $apm$ a $acf$.
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ {PB\textcolor{orange}{N}}_{\textcolor{red}{acf}} $ &=& $ PB\textcolor{orange}{I}_{\textcolor{red}{apm}} \textcolor{red}{ - II + Sub} \textcolor{orange}{ + SBP } $ \\
+                $ {PBN}_{acf} $ &=& $ 6{.}300 - 180 + 80 + ( -400 ) $ \\
+                $ {PBN}_{acf} $ &=& \textbf{5.800}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        C) Monto Total de Bienes Disponibles.
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ MTBD $ &=& $ PBI_{apm} - SBC $ \\
+                $ MTBD $ &=& $ 6{.}300 - ( 250 - 150 ) $ \\
+                $ MTBD $ &=& \textbf{6.200}
+			\end{tabular}
+		\end{table}
+        
+        \newpage
+        
+        D) El Producto Neto Interno a precio de mercado se calcula con el $ PBI_{apm} $ obtenido en A), realizando la conversión de Bruto a Neto.
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ P\textcolor{green}{N}I_{apm} $ &=& $ P\textcolor{green}{B}I_{apm} \textcolor{green}{ - ACF} $ \\
+                
+                $ PNI_{apm} $ &=& $ 6{.}300 - 100 $ \\
+                $ PNI_{apm} $ &=& \textbf{6.200}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        E) El Ingreso Bruto Interno a costo de factores es lo mismo que el Producto Bruto Interno a costo de factores, y se calcula con el $ PBI_{apm} $ obtenido en A), realizando la conversión de $apm$ a $acf$.
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ YBI_{\textcolor{red}{acf}} $ &=& $ PBI_{\textcolor{red}{apm}} \textcolor{red}{- II + Sub} $ \\
+                $ YBI_{acf} $ &=& $ 6{.}300 - 180 + 80 $ \\
+                $ YBI_{acf} $ &=& \textbf{6.200}
+			\end{tabular}
+		\end{table}
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        \newpage
+    
+    	\subsubsection{Ejercicio 5}
+        
+		\consigna{Determine con la siguiente información los valores de las variables macroeconómicas que se detallan a continunación}
+        
+        \begin{itemize}
+			\item[A)]	El Producto Bruto Interno a precio de mercado
+			\item[B)]	El Producto Bruto Nacional a costo de factores
+            \item[C)]	La Inversión Neta Interna
+            \item[D)]	El Producto Neto Interno a precio de mercado
+		\end{itemize}
+        
+        \begin{table}[H]
+        \centering
+        	\begin{tabular}{ | l | c | c | l | c | c | }
+            \hline
+            Salarios			& 1.000	& \$año	& Impuestos Indirectos	& 800 & \$año \\ \hline
+            Beneficios de las empresas &2.000& \$año	& Amort. Capital Fijo	& 200 & \$año \\ \hline
+            Producto del Estado	& 900	& \$año	& Saldo Balanza de Pagos &-400 & \$año \\ \hline
+            Intereses del capital& 700	& \$año	& Importaciones			& 150 & \$año \\ \hline
+            Renta de la tierra	& 500	& \$año	& Exportaciones			& 250 & \$año \\ \hline
+            Compra de bienes capital& 1.000	& \$año	& Subsidios				& 200 & \$año \\ \hline
+			\end{tabular}
+		\end{table}
+        
+        A) El Producto Bruto Interno a precio de mercado se calcula por el método de los ingresos (\ref{metodo_de_los_ingresos}).
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ PBI_{apm} $ &=& $ \sum RFP + \sum ACF + \sum II - Sub + G $ \\
+                $ PBI_{apm} $ &=& $ ( 1{.}000 + 2{.}000 + 700 + 500 ) + 200 + 800 - 200 + 900 $ \\
+                $ PBI_{apm} $ &=& \textbf{5.900}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        B) El Producto Bruto Nacional a costo de los factores se puede calcular en base al $PBI_{apm}$ obtenido en A), realizando la conversión de $apm$ a $acf$ y de Interno a Nacional.
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ PB\textcolor{orange}{N}_{\textcolor{red}{acf}} $ &=& $ PB\textcolor{orange}{I}_{\textcolor{red}{apm}} \textcolor{red}{ -II + Sub } \textcolor{orange}{ + SBP } $ \\
+                $ PBN_{acf} $ &=& $ 5{.}900 - 800 + 200 +  ( -400 ) $ \\
+                $ PBN_{acf} $ &=& \textbf{4.700}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        C) La Inversión Neta Interna se puede calcular en base a la Inversión Bruta, realizando la conversión de Bruto a Neto.
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ Y\textcolor{green}{N}I $ &=& $ I\textcolor{green}{B} \textcolor{green}{ - ACF} $ \\
+                $ YNI $ &=& $ 1{.}000 - 200 $ \\
+                $ YNI $ &=& \textbf{800}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        D) El Producto Neto Interno a precio de mercado se puede calcular en base al $PBI_{apm}$ obtenido en A), realizando la conversión de Bruto a Neto.
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ P\textcolor{green}{N}I_{apm} $ &=& $ P\textcolor{green}{B}I_{apm} \textcolor{green}{ - ACF} $ \\
+                $ PNI_{apm} $ &=& $ 5{.}900 - 200 $ \\
+                $ PNI_{apm} $ &=& \textbf{5.700}
+			\end{tabular}
+		\end{table}
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        \newpage
+    
+    	\subsubsection{Ejercicio 6}
+        
+        \consigna{Si un país presenta la siguiente información macroeconómica}
+        
+        \begin{table}[H]
+        \centering
+        	\begin{tabular}{ | l c c | }
+            \hline
+            Impuestos Indirectos	& =	& \$80 \\ \hline
+            Amort. Capital Fijo		& =	& \$120 \\ \hline
+            Producto del Gobierno	& =	& \$500 \\ \hline
+            Subsidios				& =	& \$40 \\ \hline
+            Consumo					& =	& \$570 \\ \hline
+            Inversión Bruta			& =	& \$300 \\ \hline
+            Variación de Stock		& =	& \$-60 \\ \hline
+            Saldo Balanza de Pagos	& =	& \$-15 \\ \hline
+            Saldo Balanza comercial	& =	& \$-60 \\ \hline
+			\end{tabular}
+		\end{table}
+        
+        \begin{itemize}
+			\item[A)]	Calcule el Producto Bruto Interno a precio de mercado
+            \item[B)]	Determine el Monto Total de Bienes Disponibles
+            \item[C)]	Si la cantidad de habitantes de este país es de 100, indique cuál es el valor monetario del Ingreso Per Cápita
+		\end{itemize}
+        
+        A) El Producto Bruto Interno a precio de mercado se calcula por el método del gasto final (\ref{metodo_del_gasto_final}).
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$PBI_{apm}$ &=& $\sum C + \sum IB + \sum {A}_{j} {E}_{xis} + \sum SBC + G $\\
+                $ PBI_{apm} $ &=& $ 570 + 300 + ( -60 ) + ( -60 ) + 500 $ \\
+                $ PBI_{apm} $ &=& \textbf{1.250}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        B) Monto Total de Bienes Disponibles.
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ MTBD $ &=& $ PBI_{apm} - SBC $ \\
+                $ MTBD $ &=& $ 1{.}250 - ( -60 ) $ \\
+                $ MTBD $ &=& \textbf{1.310}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        C) Ingreso Per Cápita
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+	            \vspace{0.3cm}
+               	$ IPC $ &=& $ \dfrac{PBI_{acf}}{Habitantes} $ \\ \vspace{0.3cm}
+                $ IPC $ &=& $ \dfrac{1{.}250-80+40}{100}$ \\
+                $ IPC $ &=& \textbf{12,1}
+			\end{tabular}
+		\end{table}
+
+        %%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        \newpage
+    
+    	\subsubsection{Ejercicio 7}
+        
+        \consigna{Dada la siguiente información macroeconómica}
+        
+        \begin{table}[H]
+        \centering
+        	\begin{tabular}{ | l c c | }
+            \hline
+            Producto Nacional Neto a costo de los factores	& =	& \$1.000 \\ \hline
+            Amort. Capital Fijo								& =	& \$200 \\ \hline
+            Saldo Balanza de Pagos							& =	& \$-200 \\ \hline
+            Impuestos Indirectos							& =	& \$300 \\ \hline
+            Producto del Gobierno							& =	& \$250 \\ \hline
+            Inversión Neta Fija								& =	& \$200 \\ \hline
+            Saldo Balanza comercial							& =	& \$-50 \\ \hline
+            Variación de inventarios						& =	& \$-50 \\ \hline
+			\end{tabular}
+		\end{table}
+        
+        \consigna{Determine}
+        
+        \begin{itemize}
+			\item[A)]	El Producto Nacional Bruto a precio de mercado
+			\item[B)]	El Producto Interior Neto a precio de mercado
+            \item[C)]	El consumo de la población
+            \item[D)]	El Monto Total de Bienes Disponibles
+            \item[E)]	El Producto Interior Bruto a costo de factores
+		\end{itemize}
+        
+        A) El Producto Nacional Bruto a precio de mercado se calcula realizando la conversión de Neto a Bruto del ${PNN}_{acf}$ dado como dato.
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ PN\textcolor{green}{B}_{\textcolor{red}{apm}} $ &=& $ P\textcolor{green}{N}N_{\textcolor{red}{acf}} \textcolor{red}{ +II - Sub } \textcolor{green}{ + ACF } $ \\
+                $ PNB_{apm} $ &=& $ 1{.}000 + 300 - 0 + 200 $ \\
+                $ PNB_{apm} $ &=& \textbf{1.500}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        B) El Producto Interior Neto a precio de mercado se calcula en base al $PNB_{apm}$ obtenido en A), realizando la conversión de Bruto a Neto y de Nacional a Interno
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ P\textcolor{green}{N}\textcolor{orange}{I}_{apm} $ &=& $ P\textcolor{green}{B}\textcolor{orange}{N}_{apm} \textcolor{green}{ - ACF } \textcolor{orange}{ - SBP } $ \\
+                $ PNI_{apm} $ &=& $ 1{.}500 - 200 - ( - 200 ) $ \\
+                $ PNI_{apm} $ &=& \textbf{1.500}
+			\end{tabular}
+		\end{table}
+        
+        \newpage
+        
+        C) Para calcular el consumo de la población, se tiene que usar la fórmula de cálculo del ${PBI}_{apm}$ por el método del gasto final (\ref{metodo_del_gasto_final}) y de allí despejar el Consumo. Previamente, el valor del ${PBI}_{apm}$ se puede obtener del ${PNN}_{acf}$, convirtiéndolo de Neto a Bruto, de Nacional a Interno y de $acf$ a $apm$.
+        
+        Obtención de ${PBI}_{apm}$ \hrulefill
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ P\textcolor{green}{B}\textcolor{orange}{I}_{\textcolor{red}{apm}} $ &=& $ P\textcolor{green}{N}\textcolor{orange}{N}_{\textcolor{red}{acf}} \textcolor{red}{ + II - Sub } \textcolor{green}{ + ACF } \textcolor{orange}{ - SBP } $ \\
+                $ PBI_{apm} $ &=& $ 1{.}000 + 300 - 0 + 200 - ( -200 )  $ \\
+                $ PBI_{apm} $ &=& \textbf{1.700}
+			\end{tabular}
+		\end{table}
+        
+        Obtención de $C$ \hrulefill
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ C $ &=& $ PBI_{apm} - \sum IB - \sum {A}_{j} {E}_{xis} - \sum SBC - G $\\
+                $ C $ &=& $ 1{.}700 - ( 200 + 200 ) - ( - 50 ) - ( - 50 ) - 250 $ \\
+                $ C $ &=& \textbf{1.150}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        D) Monto Total de Bienes Disponibles.
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ MTBD $ &=& $ PBI_{apm} - SBC $ \\
+                $ MTBD $ &=& $ 1{.}700 - ( -50 ) $ \\
+                $ MTBD $ &=& \textbf{1.750}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        E) El Producto Bruto Interior a costo de los factores se puede calcular en base al $PBI_{apm}$ obtenido en C), realizando la conversión de $apm$ a $acf$.
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ PBI_{\textcolor{red}{acf}} $ &=& $ PBI_{\textcolor{red}{apm}} \textcolor{red}{ -II + Sub }$ \\
+                $ PBI_{acf} $ &=& $ 1{.}700 - 300 + 0 $ \\
+                $ PBI_{acf} $ &=& \textbf{1.400}
+			\end{tabular}
+		\end{table}
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        \newpage
+        
+    	\subsubsection{Ejercicio 8}
+        
+        \consigna{Si un país presenta la siguiente información macroeconómica}
+        
+        \begin{table}[H]
+        \centering
+        	\begin{tabular}{ | l c c | }
+            \hline
+            Producto Bruto Interno a costa de factores		& =	& \$100 \\ \hline
+            Impuestos Directos								& =	& \$12 \\ \hline
+            Impuestos Indirectos							& =	& \$20 \\ \hline
+            Producto del Gobierno							& =	& \$25 \\ \hline
+            Amort. Capital Fijo								& =	& \$2 \\ \hline
+            Saldo Balanza Comercial							& =	& \$-5 \\ \hline
+            Saldo Balanza de Pagos							& =	& \$10 \\ \hline
+            Variación de existencias						& =	& \$3 \\ \hline
+            Inversión Neta									& =	& \$20 \\ \hline
+            Subsidios										& =	& \$2 \\ \hline
+			\end{tabular}
+		\end{table}
+        
+        \begin{itemize}
+			\item[A)]	El Producto Bruto Interno a precio de mercado
+            \item[B)]	El Monto Total de Bienes Disponibles
+            \item[C)]	El Consumo de la población
+			\item[D)]	El Producto Neto Nacional a precio de mercado
+            \item[E)]	El Ingreso Per Cápita si la cantidad de habitantes es igual a 50
+		\end{itemize}
+        
+        A) El Producto Bruto Interno a precio de mercado se puede calcular en base al $PBI_{acf}$, realizando la conversión de $acf$ a $apm$.
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ PBI_{\textcolor{red}{apm}} $ &=& $ PBI_{\textcolor{red}{acf}} \textcolor{red}{+ II - Sub} $ \\
+                $ PBI_{apm} $ &=& $ 100 + 20 - 2 $ \\
+                $ PBI_{apm} $ &=& \textbf{118}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        B) Monto Total de Bienes Disponibles.
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ MTBD $ &=& $ PBI_{apm} - SBC $ \\
+                $ MTBD $ &=& $ 118 - ( -5 ) $ \\
+                $ MTBD $ &=& \textbf{123}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        C) El Consumo de la población
+        
+        \begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ C $ &=& $ PBI_{apm} - \sum IB - \sum {A}_{j} {E}_{xis} - \sum SBC - G $\\
+                $ C $ &=& $ 118 - ( 20 + 2 ) - ( 3 ) - ( - 5 ) - 25 $ \\
+                $ C $ &=& \textbf{73}
+			\end{tabular}
+		\end{table}
+        
+        \newpage
+        
+        D) El Producto Neto Nacional a precio de mercado se puede calcular en base al $PBI_{apm}$, realizando la conversión de Bruto a Neto y de Interno a Nacional.
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+               	$ P\textcolor{green}{N}\textcolor{orange}{N} _{apm} $ &=& $ P\textcolor{green}{B}\textcolor{orange}{I}_{apm} \textcolor{green}{ - ACF} \textcolor{orange}{ + SBP} $ \\
+                $ PNN_{apm} $ &=& $ 118 - 2 + ( 10 ) $ \\
+                $ PNN_{apm} $ &=& \textbf{126}
+			\end{tabular}
+		\end{table}
+        
+        \hrulefill
+        
+        E) Ingreso Per Cápita
+        
+		\begin{table}[H]
+		\centering
+        	\begin{tabular}{ c c c }
+	            \vspace{0.3cm}
+               	$ IPC $ &=& $ \dfrac{PBI_{acf}}{Habitantes} $ \\ \vspace{0.3cm}
+                $ IPC $ &=& $ \dfrac{100}{50}$ \\
+                $ IPC $ &=& \textbf{2}
+			\end{tabular}
+		\end{table}
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%
+        
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+
+Clase 5 - 10/09 \hrulefill
+
+\section{Costos - Sistemas directos o variables}
+
+	\subsection{Definiciones}
+    
+    \begin{itemize}
+    	\item	\textbf{Costos Erogables}: Son los costos que representan una salida inmediata de dinero (\textsl{Sueldos, materias primas, etc. Son la gran mayoría}).
+        
+        \item	\textbf{Costos No Erogables}: No implican una salida inmediata de dinero.
+        		En esta categoría sólo hay 3 elementos:
+                \begin{itemize}
+					\item	Amortizaciones
+                    \item	Gastos pagados por adelantado (\textsl{Intereses pagados por adelantado})
+                    \item	Constitución de previsiones
+				\end{itemize}
+		
+        \item	\textbf{Costos Fijos}: Permanecen invariables cualquiera sea el nivel de ventas alcanzado (\textsl{Alquiler del local, amortización de las máquinas, etc}).
+        		Poseen una componente erogable y una no erogable.
+        
+        \item	\textbf{Costos Variables}: Varían en proporción con el nivel de producción (\textsl{Materias primas, energía, etc}).
+        
+        \item	\textbf{Costos Totales}: Son la suma de los costos fijos y los costos variables.
+        		\begin{align}
+                	\text{Costos Totales} = \text{Costos Fijos} + \text{Costos Variables}
+                    \label{Costos_totales}
+				\end{align}
+        
+        \item	\textbf{Ingresos por Ventas}: Es el producto entre la cantidad de unidades vendidas y el Precio de Venta Unitario.
+        		\begin{align}
+                	\text{Ingresos} = \text{Precio de Venta Unitario} \cdot \text{Cantidad de Unidades Vendidas}
+                    \label{Ingresos}
+				\end{align}
+        
+		\item	\textbf{Punto de Equilibrio Económico}: Es el punto donde la cantidad de Ingresos es igual a los Costos Totales.
+        		Produciendo la cantidad de unidades indicada por este punto (\textsl{$Q_E$ en la figura \ref{fig:Potencial_beneficio}}), se logra que los ingresos por las ventas de todas esas unidades cubran los costos totales de producción.
+                Por encima de este punto (\textsl{$Q_A$ en la figura \ref{fig:Potencial_beneficio}}), hay movimiento económico o beneficios.
+                Por debajo, son pérdidas y no se debería trabajar, aunque se puede, mientras no se alcance el punto de equilibrio financiero (\textsl{$Q_F$ en la figura \ref{fig:Punto_de_equilibrio_economico}}).
+                En esta zona aumenta el índice de endeudamiento y se reduce la capacidad de apancalamiento financiero.
+                
+		\item	\textbf{Punto de Equilibrio Financiero}: Representa la intersección entre los Ingresos y los Costos Totales Erogables.
+        		Esto significa que los ingresos cubren la salida de dinero inmediata.
+                \textbf{\textcolor{red}{Este punto es crítico, porque por debajo, significa que la empresa está en quiebra, ya que no le alcanza ni para cubrir los sueldos.}}
+                Si no hay datos sobre las amortizaciones, no se puede calcular este punto (\textsl{Tenerlo en cuenta para los ejercicios}).
+                Siempre será menor que el punto de equilibrio económico.
+                
+	\end{itemize}
+    
+        \begin{figure}
+        \centering
+        \begin{tikzpicture}[yscale=0.75]
+        	% Ejes
+        	\draw[<-] (10,0) -- (0,0);
+            \draw[<-] (0,6) -- (0,0);
+            % Unidades de los ejes
+            \node[right] at (10,0) {Q [Cantidad]};
+            \node[right] at (0,6) {\$};
+        	% Recta de ingresos
+            \draw[green, very thick] (0,0) -- (10,6);
+            % Recta de costos fijos
+            \draw[orange] (0,2) -- ++ (10,0);
+            \draw[orange, dashed] (0,1.25) -- ++ (10,0);
+            % Rectas de costos totales
+            \draw[blue, very thick] (0,2) -- ++ (10,3);
+            \draw[blue, very thick, dashed] (0,1.25) -- ++ (10,3);
+            % Rectas auxiliares de intersección para Qf
+            \draw[red, dashed] (4.167,0) -- ++ (0,2.5);
+            \draw[red, dashed] (0,2.5) -- ++ (4.167,0);
+            \fill[red] (4.167,2.5) circle (0.1cm);
+            % Rectas auxiliares de intersección para Qe
+            \draw[violet, dashed] (6.67,0) -- ++ (0,4);
+            \draw[violet, dashed] (0,4) -- ++ (6.67,0);
+            \fill[violet] (6.67,4) circle (0.1cm);
+            % Nombres de las rectas
+            \node[right, orange] at (10,1.25) {Costos fijos erogables};
+            \node[right, orange] at (10,2) {Costos fijos totales};
+            \node[right, blue] at (10,4.25) {Costos totales erogables};
+            \node[right, blue] at (10,5) {Costos totales};
+            \node[right, green] at (10,6) {Ingresos};
+            % Cruces con los ejes
+            \node[below, red] at (4.16,0) {$Q_F$};
+            \node[below, violet] at (6.67,0) {$Q_E$};
+            % Indicación de los puntos interesantes
+            \node[right, violet] at (0.75,5.5) {Punto de equilibrio económico};
+            \fill[violet] (0.5,5.5) circle (0.1cm);
+            \node[right, red] at (0.75,4.75) {Punto de equilibrio financiero};
+            \fill[red] (0.5,4.75) circle (0.1cm);
+            \label{fig:Punto_de_equilibrio_economico}
+		\end{tikzpicture}
+        \caption{Punto de equilibrio}
+        \end{figure}
+    
+        \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[yscale=0.75]
+        	% Ejes
+        	\draw[<-] (10,0) -- (0,0);
+            \draw[<-] (0,6) -- (0,0);
+            % Unidades de los ejes
+            \node[right] at (10,0) {Q [Cantidad]};
+            \node[right] at (0,6) {\$};
+        	% Recta de ingresos
+            \draw[violet] (0,0) -- (10,6);
+            % Recta de costos fijos
+            \draw[orange] (0,2) -- ++ (10,0);
+            \draw[orange, dashed] (0,1.25) -- ++ (10,0);
+            % Rectas de costos totales
+            \draw[blue] (0,2) -- ++ (10,3);
+            \draw[blue, dashed] (0,1.25) -- ++ (10,3);
+            % Rectas auxiliares de intersección para Qe
+            \draw[red, dashed] (6.67,0) -- ++ (0,4);
+            \draw[red, dashed] (0,4) -- ++ (6.67,0);
+            % Rectas auxiliares de intersección para Qa
+            \draw[green, dashed] (9,0) -- ++ (0,5.4);
+            \draw[green, dashed] (0,5.4) -- ++ (9,0);
+            % Cruces con los ejes
+            \node[below, red] at (6.67,0) {$Q_E$};
+            \node[left, red] at (0,4) {${I}_{Q_E}$};
+            \node[below, green] at (9,0) {$Q_A$};
+            \node[left, green] at (0,5.4) {${I}_{Q_A}$};
+            % Área de quebranto
+            \fill[red] (0,0) -- (0,2) -- (6.67,4) -- cycle;
+            \fill[green] (6.67,4) -- (9,5.4) -- (9,4.7) -- cycle;
+            % Indicaciones de las áreas
+            \fill[green] (11,4) rectangle (12,5);
+            \node[right,green] at (12,4.5) {Área de Ganancias};
+            \fill[red] (11,2) rectangle (12,3);
+            \node[right,red] at (12,2.5) {Área de Quebranto};
+            \label{fig:Potencial_beneficio}
+		\end{tikzpicture}
+        \caption{Potencial de Beneficio}
+        \end{figure}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    %\newpage
+    
+    \subsection{Guía de ejercicios - Costos}
+    
+    	%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    	\subsubsection{Aclaraciones}
+        
+        \begin{itemize}
+        
+        	\item	\textbf{Precio de Venta Unitario - ${PV}_{U}$}: Es el precio de venta en el mercado de las unidades.
+            \item	\textbf{Costo Variable Unitario - ${CV}_{U}$}: Costo variable por unidad (\textsl{Dato del problema}).
+            
+            \item	\textbf{Costos de Comercialización Unitarios - ${CC}_{U}$}: Son el cociente entre los Gastos de Comercialización Variables y las unidades vendidas. \textbf{\textcolor{red}{Normalmente, su aporte a los Costos Marginales será despreciable, pero el no colocarlos en las fórmulas representa un error conceptual grave que puede significar que todo el ejercicio esté mal}}. Si no hay datos en los problemas para calcularlos, sólo hay que reemplazarlos por cero.
+            		\begin{align}
+                    	{CC}_{U} = \dfrac{\text{Gastos de Comercialización Variables}}{\text{Unidades vendidas}}
+                        \label{CCU}
+					\end{align}
+            		
+			\item	\textbf{Costos Marginales}: Es la diferencia entre el Precio de Venta Unitario, los Costos Variables Unitarios y los Costos de Comercialización Unitarios
+            		\begin{align}
+                    	CM = {PV}_{U} - {CV}_{U} - {CC}_{U}
+                        \label{Costos_marginales}
+					\end{align}
+                    
+			\item	\textbf{Punto de equilibrio económico}: Como es la intersección de las curvas de ingresos con la de gastos totales, como se observa en la figura \ref{fig:Punto_de_equilibrio_economico}, se deben igualar las ecuaciones de Costos Totales, (\ref{Costos_totales}) y de los Ingresos, (\ref{Ingresos}), para despejar la cantidad necesaria de unidades a producir
+            		\begin{table}[H]
+                    \centering
+                    	\begin{tabular}{ c c c}
+                        	Ingresos			&=&	Costos totales\\[0.2cm]
+                            $Q \cdot {PV}_{U}$	&=&	$CF + CV$\\[0.2cm]
+                            $Q \cdot {PV}_{U}$	&=&	$CF + Q \cdot {CV}_{U} + {GC}_{V}$\\[0.2cm]
+                            $Q \cdot ( {PV}_{U} - {CV}_{U} ) - {GC}_{V} $	&=&	$CF$\\[0.2cm]
+                            $ Q $	&=&	$ \dfrac{CF}{ {PV}_{U} - {GV}_{U} - \dfrac{{GC}_{V}}{Q} } $\\[0.2cm]
+						\end{tabular}
+					\end{table}
+                    Finalmente, la ecuación para hallar el Punto de Equilibrio Económico es:
+                    \begin{align}
+                    	Q_{Economico} = \dfrac{ CF }{ {PV}_{U} - {CV}_{U} - {CC}_{U} }
+                        \label{Punto_de_equilibrio_Economico}
+					\end{align}
+                    Notar que el denominador son los Costos Marginales
+                    
+			\item	\textbf{Punto de Equilibrio Financiero}: Al igual que el punto anterior, se trata de despejar la intersección entre las rectas de Ingresos, (\ref{Ingresos}), y la recta de los Costos Totales Erogables.
+					\begin{align}
+                    	Q_{Financiero} = \dfrac{ CF_{Erogables} }{ {PV}_{U} - {CV}_{U} - {CC}_{U} }
+                        \label{Punto_de_equilibrio_Financiero}
+					\end{align}
+            
+            \item	\textbf{Potencial de beneficio}: Es la relación entre las áreas de Quebranto y de Ganancias
+            		\begin{align}
+                    	\text{Potencial de Beneficios} = \dfrac{ \text{Área de Ganancias} }{ \text{Área de Quebranto} }
+					\end{align}
+            
+		\end{itemize}
+        
+        \begin{figure}[H]
+        \centering
+        \textbf{\textit{Formación del precio de venta}}\\[0.2cm]
+        \begin{tikzpicture}[scale=0.75]
+            % Primer escalón
+            \draw (0,0) rectangle (1.5,1.5);
+            \node at (0.75,0.75) {MOD};
+            \draw (0,1.5) rectangle (1.5,3);
+            \node at (0.75,2.25) {MPD};
+            % Segundo escalón
+            \draw[green] (1.5,0) rectangle (3,3);
+            \node[green] at (2.25,1.5) {CD};
+            \draw[green] (1.5,3) rectangle (3,4.5);
+            \node[green] at (2.25,3.75) {GF};
+            % Tercer escalón
+            \draw[blue] (3,0) rectangle (4.5,4.5);
+            \node[blue] at (3.75,2.25) {CF};
+            \draw[blue] (3,4.5) rectangle (4.5,6);
+            \node[blue] at (3.75,5.25) {GA};
+            % Tercer escalón
+            \draw[orange] (4.5,0) rectangle (6,6);
+            \node[orange] at (5.25,3) {CP};
+            \draw[orange] (4.5,6) rectangle (6,7.5);
+            \node[orange] at (5.25,6.75) {GV};
+            % Cuarto escalón
+            \draw[violet] (6,0) rectangle (7.5,7.5);
+            \node[violet] at (6.75,3.75) {CV};
+            \draw[violet] (6,7.5) rectangle (7.5,9);
+            \node[violet] at (6.75,8.25) {B};
+            % Quinto escalón
+            \draw[red, ultra thick] (7.5,0) rectangle (9,9);
+            \node[red] at (8.25,4.5) {\textbf{PV}};
+            % Textos
+            \node[right] at (9.5,8) {$MOD$: Mano de Obra Directa};
+            \node[right] at (9.5,7.25) {$MPD$: Materia Prima Directa};
+            \node[right] at (9.5,6.5) {\textcolor{green}{$CD$}: Costos Directos (\textsl{Primos}). \textcolor{green}{$CD$} $= MOD + MPD$};
+            \node[right] at (9.5,5.75) {\textcolor{green}{$GF$}: Gastos de Fabricación.};
+            \node[right] at (9.5,5) {\textcolor{blue}{$CF$}: Costos de Fabricación. \textcolor{blue}{$CF$} $=$ \textcolor{green}{$CD$} $+$ \textcolor{green}{$GF$}};
+            \node[right] at (9.5,4.25) {\textcolor{blue}{$GA$}: Gastos Administrativos.};
+            \node[right] at (9.5,3.5) {\textcolor{orange}{$CP$}: Costos de Producción. \textcolor{orange}{$CP$} $=$ \textcolor{blue}{$CF$} $+$ \textcolor{blue}{$GA$}};
+            \node[right] at (9.5,2.75) {\textcolor{orange}{$GV$}: Gastos de Ventas.};
+            \node[right] at (9.5,2) {\textcolor{violet}{$CV$}: Costos de Ventas. \textcolor{violet}{$CV$} $=$ \textcolor{orange}{$CP$} $+$ \textcolor{orange}{$GV$}};
+            \node[right] at (9.5,1.25) {\textcolor{violet}{$B$}: Beneficios.};
+            \node[right] at (9.5,0.5) {\textcolor{red}{$PV$}: Precio de Venta. \textcolor{red}{$PV$} $=$ \textcolor{violet}{$CV$} $+$ \textcolor{violet}{$B$}};
+            
+        \end{tikzpicture}
+        \label{fig:Formacion_del_precio_de_venta}
+        \caption{Formación del precio de venta}
+        \end{figure}
+        
+    	%%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        \newpage
+    
+    	\subsubsection{Ejercicio 4}
+        
+        \consigna{
+        	Una empresa que fabrica tanques de agua cilíndricos de fibrocemento con tapa cuya capacidad es de 1.000 litros tiene costos mensuales de estructura de \$96.000.
+            El costo variable de cada tanque es de \$42 y el precio de venta en el mercado es de \$88.
+            Calcular:
+        	}
+            
+            \begin{itemize}
+				\item[A)]	La cantidad tanques que es necesario vender para que la empresa alcance su punto de equilibrio.
+                \item[B)]	Si la empresa no puede fabricar más de 1.500 tanques mensuales, ¿A cuánto deberían llevar sus gastos de estructura para lograr que el punto de equilibrio se determine en 1.200 tanques?
+                \item[C)]	¿Cuanto variará la contribución marginal unitaria si los costos de estructura bajan a \$ 55.200?
+			\end{itemize}
+            
+            \begin{table}[H]
+            \centering
+            	\begin{tabular}{ | l | r | }
+                	\hline
+                    Gastos de estructura	&	\$96.000	\\ \hline
+                    Costo variable unitario	&	\$42		\\ \hline
+                    Precio unitario			&	\$88		\\ \hline
+                    Cantidad máxima			&	1.500		\\ \hline
+                    Cantidad sugerida		&	1.200		\\ \hline
+				\end{tabular}
+			\end{table}
+        
+        	A) Al no haber datos sobre las amortizaciones, no se podría calcular el Punto de Equilibrio Financiero, con lo cual se procede a calcular el Punto de Equilibrio Económico. Se podría hacer directamente según la ecuación \ref{Punto_de_equilibrio_Economico}, pero primero se calcularán los Costos Marginales, según \ref{Costos_marginales}, para luego hallar $Q_{Economico}$.\\
+            Los Costos Fijos están representados por los Gastos Estructurales
+                \begin{gather*}
+                	CM	=	{PV}_{U} - {CV}_{U} - {CC}_{U} \\
+                    CM	=	\$88 / \text{Unidad} - \$42 / \text{Unidad} - \$0 / \text{Unidad} \\
+                    CM	=	\$46 / \text{Unidad}
+				\end{gather*}
+                \begin{gather*}
+                	Q_{Economico} = \dfrac{ CF }{ CM } \\
+                    Q_{Economico} = \dfrac{ \$96{.}000 }{ \$46 / \text{Unidad} } \\
+                    Q_{Economico} = 2{.}087 \text{ Unidades}
+				\end{gather*}
+                
+			\hrulefill
+            
+            B) En este caso, se deben despejar de la ecuación del Punto de Equilibrio Económico, \ref{Punto_de_equilibrio_Economico}, los Gastos de Estructura, sabiendo que los Costos Marginales siguen valiendo lo mismo y que la cantidad de unidades para el equilibrio es de 1.200.
+            
+                \begin{gather*}
+                	Q_{Economico} = \dfrac{ CF }{ CM } \\
+                    1{.}200 \text{ Unidades} = \dfrac{ CF }{ \$46 / \text{Unidad} } \\
+                    CF = \$55{.}200
+				\end{gather*}
+                
+			\newpage
+            
+            C) Si los costos de estructura se reducen a \$55.200 y la cantidad de bienes producidos es de 1.200, la contribución marginal no variará, como queda demostrado en el punto anterior
+        
+    	%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    	\hrulefill
+        
+    	\subsubsection{Ejercicio 11}
+        
+        \consigna{¿Cuántas unidades de producto tiene que producir y vender una empresa para obtener un beneficio equivalente al 20\% de sus ingresos por ventas si produce un único producto, los gastos fijos de estructura del período ascienden a \$60.000 y el precio de venta unitario es de \$20 y le deja una contribución marginal de \$12 por unidad?}
+        
+        \par{
+        	Se debe aclarar que el beneficio equivalente es un adicional, que se plantea como:
+        	}
+		\begin{align}
+        	\text{Ingresos} = \text{Costos totales} + \text{Beneficio adicional}
+            \label{Beneficios_Punto_de_equilibrio_economico}
+		\end{align}
+        \par{
+        	La diferencia entre los diversos ejercicios, es el planteamiento de sobre qué se requieren los beneficios.
+            Es decir, si serán un porcentaje de los ingresos por ventas o de los costos fijos.
+            Antes del planteo final del punto de equilibrio, resta por conocer el Costo de Venta Unitario, que se calcula mediante el costo marginal:
+            }
+            \begin{gather*}
+            	{CM} = {PV}_{U} - {CV}_{U} - {GV}_{U} \\
+                \$12 = \$20 - {CV}_{U} - 0 \\
+                {CV}_{U} = \$8
+			\end{gather*}
+            \par{
+            	Por lo tanto, la ecuación queda:
+                }
+            \begin{gather}
+            	\text{Ingresos} = \text{Costos totales} + \text{Beneficio adicional} \notag \\
+                Q_{Economico} \cdot {PV}_{U} = ( CF + Q_{Economico} \cdot {CV}_{U} ) + ( 20\% \cdot Q_{Economico} \cdot {PV}_{U} ) \notag \\
+                Q_{Economico} \cdot {PV}_{U} - Q_{Economico} \cdot {CV}_{U} - 20\% \cdot Q_{Economico} \cdot {PV}_{U}= CF \notag \\
+                Q_{Economico} = \dfrac{CF}{ {PV}_{U} \cdot ( 1 - Beneficios ) - {CV}_{U} } \\
+                Q_{Economico} = \dfrac{\$60{.}000}{ \$20 \cdot ( 1 - 0.2 ) - \$8 } \notag \\
+                Q_{Economico} = 7{.}500 \text{ Unidades} \notag
+            \end{gather}
+        
+        \hrulefill
+        
+    	%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    	\subsubsection{Ejercicio 12}
+        
+        
+        \consigna{Una empresa que fabrica tanques de agua cilíndricos de fibrocemento con tapa de 1.000 litros tiene gastos mensuales de estructura de \$100.000. El costo variable de cada tanque es de \$50 y el precio de venta en el mercado es de \$90. Calcular:}
+        \begin{itemize}
+			\item[A)]	La cantidad de tanques que es necesario vender para que la empresa alcance su punto de equilibrio.
+            \item[B)]	Si la empresa no puede fabricar más de 1.500 tanques mensuales, ¿A qué precio debe vender cada tanque para lograr el punto de equilibrio?
+            \item[C)]	Ante la situación recesiva que atraviesa el mercado consumidor, la empresa baja sus precios un 15\% y analizando sus costos estructurales se determinó que \$21.000 corresponden a amortizaciones mensuales de edificio y maquinarias. Determinar el punto de equilibrio financiero.
+            \item[D)]	La empresa ha planificado cambiar la tecnología de su planta por otra de última generación, esto traerá aparejado un incremento de los costos estructurales del 25\%, una disminución de los costos variables del 18\% y un aumento de producción del 150\%. Si el precio al que se puede vender en el mercado es de \$80, ¿Cuántos tanques deben venderse por mes para obtener un beneficio equivalente al 28\% de los costos totales? y ¿cuántos, si el beneficio fuera igual al 20\% del total de los ingresos por ventas?
+		\end{itemize}
+        
+        A) Punto de Equilibrio Económico. Simplemente se debe plantear la ecuación \ref{Punto_de_equilibrio_Economico}:
+        \begin{gather*}
+            Q_{Economico} = \dfrac{ CF }{ CM } \\
+            Q_{Economico} = \dfrac{ \$100{.}000 }{ \$90 / \text{Unidad} - \$50 / \text{Unidad} } \\
+            Q_{Economico} = 2{.}500\text{ Unidades}
+        \end{gather*}
+        
+        \hrulefill
+        
+        B) El Punto de Equilibrio Económico debe darse para $Q_{Economico}=1{.}500$ Unidades, con lo que hay que despejar el Precio de Venta Unitario.
+        \begin{gather*}
+            Q_{Economico} = \dfrac{ CF }{ CM } \\
+            1{.}500\text{ Unidades} = \dfrac{ \$100{.}000 }{ {PV}_{U} - \$50 / \text{Unidad} } \\
+            {PV}_{U} = \$116.67
+        \end{gather*}
+        
+        \hrulefill
+        
+        C) Los precios bajan un 15\%, y de los Costos Fijos, \$21.000 son erogables. Determinar el nuevo Punto de Equilibrio Financiero. Se plantea por lo tanto la ecuación \ref{Punto_de_equilibrio_Financiero}:\\
+        	\textbf{Importante: Cuando se hable de una variación de precios o de costos, se hace referente a los valores del enunciado original, no a los valores previamente hallados en otros puntos (\textsl{Como sería en el B en este caso})}
+        \begin{gather*}
+            Q_{Financiero} = \dfrac{ CF no Erogables }{ CM } \\
+            Q_{Financiero} = \dfrac{ \$100{.}000 - \$21{.}000 }{ \$90 \cdot ( 1 - 0.15 ) / \text{Unidad} - \$50 / \text{Unidad} } \\
+            Q_{Financiero} = 2{.}981\text{ Unidades}
+        \end{gather*}
+        
+        \hrulefill
+        
+        D) \textbf{\textcolor{red}{Importante: El aumento de la capacidad de producción no afecta para nada a los cálculos del equilibrio económico, con lo que no se tiene que tener en cuenta para nada este dato}}\\
+        \par{
+        	Primeramente se deben actualizar los valores de varían:
+            }
+        \begin{gather*}
+            CF = CF_{Originales} \cdot ( 1 + 0.25 ) \\
+            CF = \$100{.}000 \cdot ( 1 + 0.25 ) \\
+            CF = \$125{.}000
+        \end{gather*}
+        
+        \begin{gather*}
+            {CV}_{U} = {{CV}_{U}}_{Originales} \cdot ( 1 - 0.18 ) \\
+            {CV}_{U} = \$50 \cdot ( 1 - 0.18 ) \\
+            {CV}_{U} = \$41
+        \end{gather*}
+        
+        Punto de Equilibrio Económico para obtener un beneficio de 28\% respecto de los costos totales, según \ref{Beneficios_Punto_de_equilibrio_economico}:
+            \begin{gather}
+            	\text{Ingresos} = \text{Costos totales} + \text{Beneficio adicional} \notag \\
+                Q_{Economico} \cdot {PV}_{U} = ( CF + Q_{Economico} \cdot {CV}_{U} ) \cdot ( 1 + \text{Beneficios} ) \notag \\
+                Q_{Economico} \cdot {PV}_{U} = CF \cdot ( 1 + \text{Beneficios} ) + Q_{Economico} \cdot {CV}_{U} \cdot ( 1 + \text{Beneficios} ) \notag \\
+                Q_{Economico} \cdot {PV}_{U} - Q_{Economico} \cdot {CV}_{U} \cdot ( 1 + \text{Beneficios} ) = CF \cdot ( 1 + \text{Beneficios} ) \notag \\
+                Q_{Economico} = \dfrac{CF \cdot ( 1 + \text{Beneficios} )}{ {PV}_{U} - {CV}_{U} \cdot ( 1 + \text{Beneficios} ) } \\
+                Q_{Economico} = \dfrac{ \$125{.}000 \cdot (1+0.28)}{ \$80 - \$41 \cdot ( 1 + 0.28 ) } \notag \\
+                Q_{Economico} = 5{.}814\text{ Unidades} \notag
+            \end{gather}
+		
+        Resta volver a realizar el mismo procedimiento, teniendo en cuenta que ahora se requiere que los beneficios adicionales sean del 20\% de los ingresos por ventas.
+            \begin{gather*}
+            	\text{Ingresos} = \text{Costos totales} + \text{Beneficio adicional} \\
+                Q_{Economico} = \dfrac{CF}{ {PV}_{U} \cdot ( 1 - Beneficios ) - {CV}_{U} } \\
+                Q_{Economico} = \dfrac{\$125{.}000}{ \$80 \cdot ( 1 - 0.2 ) - \$41 } \\
+                Q_{Economico} = 5{.}435 \text{ Unidades}
+            \end{gather*}
+        
+    	%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    	\newpage
+        
+    	\subsubsection{Ejercicio 14}
+        
+        \consigna{Con los siguientes datos tomados de una empresa que produjo un único producto y utilizó sistema de costeo directo, determine:}
+        \begin{itemize}
+			\item[A)]	Costo Unitario de fabricación.
+            \item[B)]	Costo de Ventas o Costo de lo vendido.
+            \item[C)]	Punto de Equilibrio Económico.
+            \item[D)]	Punto de Equilibrio Financiero.
+		\end{itemize}
+        \begin{table}[H]
+        \centering
+            \begin{tabular}{ | l | r | }
+            \hline
+            Costo de Materia Prima							&	\$250.000 / \text{año}	\\ \hline
+            Costo de Mano de Obra Directa					&	\$25.000 / \text{año}	\\ \hline
+            Gastos de Frabricación Erogables Fijos			&	\$20.000 / \text{año}	\\ \hline
+            Gastos de Fabricación No Erogables Fijos		&	\$10.000 / \text{año}	\\ \hline
+            Gastos de Fabricación Variables					&	\$15.000 / \text{año}	\\ \hline
+            Gastos de Comercialización Variables			&	\$20.000 / \text{año}	\\ \hline
+            Gastos de Comercialización Erogables Fijos		&	\$10.000 / \text{año}	\\ \hline
+            Gastos de Comercialización No Erogables Fijos	&	\$5.000 / \text{año}	\\ \hline
+            Gastos Administravitos y Financieros			&	\$25.000 / \text{año}	\\ \hline
+            Cantidad producida y vendida en el período		&	40.000					\\ \hline
+            Precio de Venta Unitario						&	\$15					\\ \hline
+            \end{tabular}
+        \end{table}
+        
+        A) Costo Unitario de Fabricación. Se lo denomina como ${CU}_{f}$, y representa los Costos Variables Unitarios (${CV}_{U}$).
+        	\begin{align}
+            	{CU}_{f} = \dfrac{ \text{Mano de Obra} + \text{Materia Prima} + \text{Gastos de frabricación variables} }{ \text{Cantidad de unidades producidas} }
+                \label{Costo_Unitario_de_Facbricacion}
+			\end{align}
+            
+            \begin{gather*}
+            	{CU}_{f} = \dfrac{ \$25{.}000 + \$250{.}000 + \$15{.}000 }{ 40{.}000 \text{ Unidades} }\\
+                {CU}_{f} = \$7.25 / \text{Unidad}
+			\end{gather*}
+            
+		\hrulefill
+        
+        B) Costo de Ventas o Costo de lo vendido. Es el producto entre el Costo Unitario de Fabricación, hallado en el punto anterior, por la cantidad de unidades vendidas
+            \begin{gather*}
+            	{CV} = \$7.5 / \text{Unidad} \cdot 40{.}000 \text{ Unidades} \\
+                {CV} = \$290{.}000
+			\end{gather*}
+            
+		\hrulefill
+        
+        C) Punto de Equilibrio Económico. Previo a esto, se deben calcular los Costos Fijos y los Gastos de Comercialización Unitarios (\textsl{En este caso, se dan los datos de los Gastos de Comercialización Variables y las unidades producidas}).\\
+        	Los Costos Fijos Totales son la suma de los Gastos de Fabricación Fijos No Erogables, los Gastos de Fabricación Fijos Erogables, los Gastos de Comerciaclización Fijos No Erogables, los Gastos de Comerciaclización Fijos Erogables y los Gastos de Administración y Finanzas.
+            \begin{gather*}
+            	CF = \$10{.}000 + \$20{.}000 + \$5{.}000 + \$10{.}000 + \$25{.}000 \\
+                CF = \$70{.}000
+			\end{gather*}
+            \newpage
+            Costos de Comercialización unitarios
+            \begin{gather*}
+            	{CC}_{U} = \dfrac{ \$20{.}000 }{ 40{.}000 \text{ Unidades} } \\
+                {CC}_{U} = \$0.5 / \text{Unidad}
+			\end{gather*}
+            
+            Punto de Equilibrio Económico
+            \begin{gather*}
+            	{Q}_{E} = \dfrac{ \$70{.}000 }{ \$15 - \$7.25 - \$0.5 } \\
+                {Q}_{E} = 9{.}655 \text{ Unidades}
+			\end{gather*}
+            
+        \hrulefill
+        
+        D) Punto de Equilibrio Financiero. Es el mismo cálculo del punto anterior, sólo que a los Costos Fijos se les debe retirar el aporte de los Costos Erogables
+            \begin{gather*}
+            	{Q}_{F} = \dfrac{ \$55{.}000 }{ \$15 - \$7.25 - \$0.5 } \\
+                {Q}_{F} = 7{.}586 \text{ Unidades}
+			\end{gather*}
+        
+    	%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    	\newpage
+    
+    	\subsubsection{Ejercicio 16}
+        
+        \begin{itemize}
+			\item[A)]	¿Cuántas unidades de producto tiene que producir y vender una empresa para obtener un beneficio equivalente al 20\% de sus ingresos (ventas) si produce un único producto, los gastos de fijos de estructura del período ascienden a \$300.000; el precio de venta unitario es de \$15 y le deja una contribución marginal de \$5?
+            \item[B)]	Determine el punto de equilibrio económico en unidades y en pesos.
+            \item[C)]	Si el 70 \% de los gastos fijos de la estructura fueran erogables, indique el valor en pesos que toma el punto de equilibrio financiero.
+            \item[D)]	Determine el potencial de beneficio.
+		\end{itemize}
+        
+		A) Antes del planteo del punto de equilibrio, resta por conocer el Costo de Venta Unitario, que se calcula mediante el costo marginal:
+            \begin{gather*}
+            	{CM} = {PV}_{U} - {CV}_{U} - {GV}_{U} \\
+                \$5 = \$15 - {CV}_{U} - 0 \\
+                {CV}_{U} = \$10
+			\end{gather*}
+            \par{
+            	Por lo tanto, según la ecuación \ref{Beneficios_Punto_de_equilibrio_economico} queda:
+                }
+            \begin{gather*}
+                Q_{Economico} = \dfrac{CF}{ {PV}_{U} \cdot ( 1 - Beneficios ) - {CV}_{U} } \\
+                Q_{Economico} = \dfrac{\$300{.}000}{ \$15 \cdot ( 1 - 0.2 ) - \$10 } \\
+                Q_{Economico} = 150{.}000 \text{ Unidades}
+            \end{gather*}
+        
+        \hrulefill
+        
+        B) Punto de Equilibrio Económico (\ref{Punto_de_equilibrio_Economico})
+        
+            \begin{gather*}
+            	{Q}_{E} = \dfrac{ \$300{.}000 }{ \$15 - \$10 } \\
+                {Q}_{E} = 60{.}000 \text{ Unidades}
+			\end{gather*}
+        
+        \hrulefill
+        
+        C) Punto de Equilibrio Financiero (\ref{Punto_de_equilibrio_Financiero}) si el 70\% de los gastos fijos son erogables
+        
+            \begin{gather*}
+            	{Q}_{E} = \dfrac{ \$300{.}000 \cdot 0.7 }{ \$15 - \$10 } \\
+                {Q}_{E} = 42{.}000 \text{ Unidades}
+			\end{gather*}
+        
+        \hrulefill
+        
+        D) Determine el potencial de beneficio
+        
+        \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[scale=0.5]
+        	% Ejes
+        	\draw[<-] (11,0) -- (0,0);
+            \draw[<-] (0,11) -- (0,0);
+            % Unidades de los ejes
+            \node[right] at (11,0) {Q [Cantidad]};
+            \node[right] at (0,11) {\$};
+        	% Recta de ingresos
+            \draw[violet] (0,0) -- (10,10);
+            % Rectas de costos totales
+            \draw[blue] (0,2) -- ++ (10,5);
+            % Rectas auxiliares de intersección para Qe
+            \draw[red, dashed] (4,0) -- ++ (0,4);
+            \draw[red, dashed] (0,4) -- ++ (4,0);
+            % Rectas auxiliares de intersección para Qa
+            \draw[green, dashed] (10,0) -- ++ (0,10);
+            \draw[green, dashed] (0,10) -- ++ (10,0);
+            % Cruces con los ejes
+            \draw[dashed] (0,7) -- ++ (10,0);
+            \node[below, red] at (4,0) {$60{.}000$};
+            \node[left, red] at (0,4) {$900{.}000$};
+            \node[below, green] at (10,0) {$150{.}000$};
+            \node[left, green] at (0,10) {$2{.}250{.}000$};
+            \node[left] at (0,2) {$300{.}000$};
+            \node[left] at (0,7) {$1{.}800{.}000$};
+            % Área de quebranto
+            \fill[red!20!white] (0,0) -- (0,2) -- (4,4) -- cycle;
+            \fill[green!20!white] (4,4) -- (10,10) -- (10,7) -- cycle;
+            % Indicaciones de las áreas
+            \fill[green!20!white] (11,4) rectangle (12,5);
+            \node[right,green] at (12,4.5) {Área de Ganancias};
+            \fill[red!20!white] (11,2) rectangle (12,3);
+            \node[right,red] at (12,2.5) {Área de Quebranto};
+		\end{tikzpicture}
+        \end{figure}
+        
+        Área de Quebranto
+        \begin{gather}
+            {A}_{Q} = \dfrac{ [({Q}_{E}-0) \cdot ({Q}_{E} \cdot {PV}_{U})] - [({Q}_{E}-0) \cdot ({Q}_{E} \cdot {PV}_{U} - CF)] }{ 2 } \\
+            {A}_{Q} = \dfrac{ [(60{.}000-0) \cdot (60{.}000 \cdot \$15)] - [(60{.}000-0) \cdot (60{.}000 \cdot \$15 - \$300{.}000)] }{ 2 } \notag \\
+            {A}_{Q} = 9{.}000{.}000{.}000 \notag
+        \end{gather}
+        
+        Área de Ganancias
+        \begin{gather}
+            {A}_{1} = \dfrac{ ({Q}_{A}-{Q}_{E}) \cdot ( [{Q}_{A}-{Q}_{E}] \cdot {PV}_{U})}{2} \\
+            {A}_{1} = \dfrac{ (150{.}000-60{.}000) \cdot ( [150{.}000-60{.}000] \cdot \$15)}{2} \notag \\
+            {A}_{1} = 60{.}750{.}000{.}000 \notag
+        \end{gather}
+        
+        \begin{gather}
+            {A}_{2} = \dfrac{ ({Q}_{A}-{Q}_{E}) \cdot ([CF + {Q}_{A} \cdot {CV}_{U}] - {Q}_{E} \cdot {PV}_{U}) }{ 2 } \\
+            {A}_{2} = \dfrac{ (150{.}000-60{.}000) \cdot ([\$300{.}000 + 150{.}000 \cdot \$10] - 60{.}000 \cdot \$15) }{ 2 } \notag \\
+            {A}_{2} = 40{.}500{.}000{.}000 \notag
+        \end{gather}
+        
+        \begin{gather}
+            {A}_{G} = {A}_{1} - {A}_{2} \\
+            {A}_{G} = 60{.}750{.}000{.}000 - 40{.}500{.}000{.}000 \notag \\
+            {A}_{G} = 20{.}250{.}000{.}000 \notag
+        \end{gather}
+        
+        Potencial Beneficio
+        \begin{gather}
+            PB = \dfrac{ {A}_{G} }{ {A}_{Q} } \\
+            PB = \dfrac{ 20{.}250{.}000{.}000 }{ 9{.}000{.}000{.}000 } \notag \\
+            PB = 2.25 \notag
+        \end{gather}
+        
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

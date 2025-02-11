@@ -1,0 +1,651 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,english]{babel}
+\usepackage{graphicx}
+\usepackage[a4paper, total={17cm,25cm}]{geometry}
+\usepackage{array}		% Para los sistemas de ecuaciones
+\usepackage{amsmath}	% Para los entornos matemáticos
+\usepackage{amssymb}	% Para la simbología matemática
+\usepackage{float}
+\usepackage{pgfplots}
+\usepgfplotslibrary{external} 
+\tikzexternalize
+%\tikzset{external/force remake}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Desarrollo de un compilador para robots móviles}
+\author{}
+\date{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\maketitle
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\begin{abstract}
+    En el presente trabajo se describe el desarrollo de un compilador para el control de trayectorias de un robot móvil.
+    El mismo genera como salida un código en MATLAB que permite simular la trayectoria que realizará, así como el código necesario para programar dicho robot.
+	\end{abstract}
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    \section{Introducción}
+    Un compilador es el nexo que permite traducir el lenguaje de alto nivel, manejado por el programador, en un lenguaje de bajo nivel, que pueda interpretar el micro controlador que posea el robot.
+    Además, debe tener los datos necesarios sobre el funcionamiento del robot objeto, que le permitan transformar las funciones del estilo "GIRAR( radio, tiempo )" en sus correspondientes tiempos e intensidades de activación de los diversos motores.
+    
+    En el presente desarrollo, el compilador bajo estudio también generará un código que permita simular la trayectoria que describirá el robot móvil, a fin de tener una primera aproximación previa a su puesta en práctica.
+    
+    Tanto el código que generará las instrucciones finales para el micro controlador como el necesario para la simulación de la trayectoria, serán desarrollados en MATLAB.
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    \section{Compilador}
+    Para llevar a cabo la conversión de instrucciones, el compilador deberá realizar un análisis previo a la generación del código de salida, en el cual corroborará que las instrucciones ingreasadas por el usuario sean correctas.
+	\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{./analisis}
+    \caption{Etapas de un compilador}
+    \label{etapas_del_compilador}
+	\end{figure}
+    Esto se puede esquematizar como la figura \ref{etapas_del_compilador}, donde se ve que se van realizando varios procesos en serie para realizar la compilación, como son:
+    \begin{itemize}
+		\item	Análisis léxico (Scanner): Como punto de partida, se convierte el código fuente en una serie de Tokens, que son símbolos léxicos definidos para el lenguaje, pudiendo ser\\
+        		asimilados la idea de las palabras de una lengua.
+        		Se reconocen las palabras reservadas del lenguaje y se verifican los tipos de datos utilizados
+                
+		\item	Análisis sintáctico (Parser): Se agrupan los tokens reconocidos en frases gramaticales para ser procesados mediante las reglas sintácticas, como la indicada en la figura \ref{Sintaxis}.
+        		Se debe analizar la secuencia de tokens y datos asociados a cada instrucción válida.
+                Aquí se tiene la representación de los diferentes estructuras de árbol AST (Abstract Syntax Tree) del programa, los cuales son una representación gráfica muy útil para la comprensión de lo descripto anteriormente, como se observa en la figura \ref{AST}.
+                
+		\item	Generación del código final: Verificada la sintaxis, se realiza la conversión de instrucciones.
+
+	\end{itemize}
+    
+    \begin{figure}[!h]
+    \centering
+        \includegraphics[width=0.7\linewidth]{./Rule_Ciclo.jpg}
+    	\caption{Regla de sintáxis ejemplo para una instrucción}
+    	\label{Sintaxis}
+    \end{figure}
+    
+    \begin{figure}[!h]
+    \centering
+        \includegraphics[width=0.7\linewidth]{./AST_ejemplo.jpg}
+    	\caption{Árbol AST para las primeras 2 instrucciones}
+    	\label{AST}
+    \end{figure}
+    
+    El compilador se desarrolló en base al IDE ANTLRWorks 1.4.2, el cual permite realizar los análisis antes mencionados, simplificando el trabajo requerido, a la vez que tiene diversas herramientas gráficas para la representación de los diferentes flujos de tokens y demás.
+    
+    El robot empleado como target del compilador es el Multiplo N6.
+    Este es un robot del tipo diferencial con una rueda libre en la parte posterior para mejorar su estabilidad, como se observa en la figura \ref{N6}
+    
+	\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth]{./antlr.jpg}
+    \caption{Herramientas del IDE ANTLRWorks 1.4.2}
+	\end{figure}
+    
+	\begin{figure}
+	\centering
+	\includegraphics[width=0.4\linewidth]{./N6}
+    \caption{Robot empleado como target}
+    \label{N6}
+	\end{figure}
+    
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    \section{Análisis cinemático}
+    
+    En el campo de la robótica movil se requiere desarrollar un modelo cinemático fiel del robot, ya que cuando este deba realizar una tarea, deberá reconocer en cada instante, mediante diversos sensores, el entorno que lo rodea.
+    En función de su concepcion del ambiente y su modelo, deberá decidir en tiempo real que acciones tomar para su desplazamiento.
+    
+    A diferencia de los actuadores, los robots móviles no disponen de una referencia fija anclada a una estructura que les permita tener un punto de referencia absoluto sobre el cual basar sus decisiones, sino que se deben tomar siempre referencias relativas a un punto de partida o un punto anterior.
+    Por esto, al existir algun error en el calculo del desplazamiento, se obtendrá una imperfección en el punto al cual se quiera arribar, el cual se sumara en cada movimiento, pudiendo ocasionar que el resultado final no sea el previsto.
+    Por lo tanto, cuanto más exacto sea el modelo cinemático del robot móvil, sera posible seguir más fehacientemente la premisa de una trayectoria, desviándose lo menos posible del punto final.
+    
+	Según la teoría de cinemática directa desarrollada por Dudek \& Jenkin, para un robot con manejo diferencial, el par de ruedas esta montado sobre un eje común.
+    Además, se pueden realizar las siguientes suposiciones:
+    \begin{itemize}
+		\item	El robot se mueve sobre una superficie plana sin irregularidades ni defectos del suelo.
+        \item	Los ejes de guiado son perpendiculares al suelo.
+        \item	Las ruedas se mueven con rodadura pura, es decir, el deslizamiento es despreciable.
+	\end{itemize}
+    
+	De esta forma, si las ruedas del robot giran sobre el suelo con diferentes velocidades, entonces habrá un punto, denominado $ICC$ (Centro Instántaneo de Curvatura), alrededor del cual ambas giran y describen una trayectoria circular.
+    Las ecuaciones para determinar la ubicación del punto de giro y la velocidad con que se desplaza el robot, son las siguientes:
+    
+    \begin{align}
+		R = \dfrac{l}{2} \cdot \dfrac{ v_r + v_l }{ v_r - v_l }\\[0.3cm]
+        \omega = \dfrac{ v_r - v_l }{ l }
+	\end{align}
+    
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    \section{Análisis dinámico}
+    
+    El estudio del modelo dinámico de un robot permite obtener el torque que se le debe aplicar a cada articulación, tal que dicho mecanismo alcance las aceleraciones necesarias para realizar una determinada trayectoria.
+    Ademas, en función del tipo de interpolador que se emplee para diseñar la trayectoria requerida, variará tanto la forma como los valores máximos, RMS y la continuidad o no de las curvas de velocidad y aceleración necesarias.
+    Teniendo en cuenta la aplicacion que deba llevar a cabo el robot, se podrá limitar el uso de algún interpolador según se necesitase que la aceleración no presente discontinuidades, que su valor RMS o que su relación con el máximo sea la mínima posible, etc.
+    
+	El modelo dinámico se plantea mediante el uso de la mecanica de Lagrange, basado en consideraciones energéticas, segén el cual se deben definir las siguientes ecuaciones:
+    
+    \begin{align}
+		\frac{\partial}{\partial x}\frac{\partial L}{\partial \dot{q}_i}-\frac{\partial L}{\partial q_i}=\tau \\[0.2cm]
+        L=k-u
+	\end{align}
+    
+    Donde:
+
+    \begin{itemize}
+    	\item	$q_i$: Coordenadas generalizadas.
+    	\item	$\tau$: Vector de fuerzas y pares aplicados en las $q_i$.
+    	\item	$L$: Función Lagrangiana.
+    	\item	$k$: Energía cinética.
+	    \item	$u$: Energía potencial.
+    \end{itemize}
+    
+    En el caso de una aplicación donde el robot se moverá siempre sobre una superficie a la misma altura, se puede considerar que la energía potencial es nula, con lo cual el lagrangiano sólo está compuesto de las energías cinéticas correspondientes a:
+
+    \begin{itemize}
+    	\item	$K_1$: Energía cinética de traslación del robot completo
+    	\item	$K_2$: Energía cinética de rotación del robot completo	
+    	\item	$K_3$: Energía cinética de rotación del conjunto motor – rueda
+    \end{itemize}
+
+	\begin{align}
+		K_1 =\frac{1}{2}m\left(x_c^2+y_c^2\right)\\[0.2cm]
+        K_2 =\frac{1}{2}I_A\dot{\Theta}^2\\[0.2cm]
+        K_3 =\frac{1}{2}I_0\dot{\Theta}^2_L+\frac{1}{2}I_0\dot{\Theta}^2_R
+	\end{align}
+
+	Donde $I_A$ es el momento de inercia del robot respecto al centro de masa, $I_0$ es el momento de inercia del conjunto motor--rueda respecto al centro de rotación.
+    Los parámetros físicos del robot se obtienen mediante el desarrollo del modelo en el software Solidwroks mostrado en la figura \ref{N6_Solid}.
+    
+    \begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{./N6_Solid}
+    \caption{Modelo del robot en Solidworks.}
+    \label{N6_Solid}
+    \end{figure}
+    
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    \section{Set de instrucciones propuesto}
+    
+    Como lenguaje de alto nivel para el usuario, se propone el siguiente set de instrucciones:
+    
+    \begin{itemize}
+		\item[]	\verb|INICIO( modelo de robot )|:\\
+        		Se encarga de inicializar el robot en cuestión.
+        
+        \item[]	\verb|GIRO_POL_3( radio, segundos )|:\\
+        		Realiza un giro completo del radio indicado en la cantidad de segundos exigida, empleando el interpolador polinomial de orden 3:
+                
+        \item[]	\verb|GIRO_POL_5( radio, segundos )|:\\
+        		Realiza un giro completo del radio indicado en la cantidad de segundos exigida, empleando el interpolador polinomial de orden 5:
+                
+        \item[]	\verb|GIRO_CICLO( radio, segundos )|:\\
+        		Realiza un giro completo del radio indicado en la cantidad de segundos exigida, empleando el interpolador cicloidal:
+                
+		\item[]	\verb|GRAFICAR_VELOCIDADES()|:\\
+        		Muestra el gráfico de las velocidades que desarrollarán las ruedas del robot.
+                
+		\item[]	\verb|GRAFICAR_TRAYECTORIA()|:\\
+        		Muestra el gráfico de la trayectoria descrita por el robot.
+                
+		\item[]	\verb|EXPORTAR()|:\\
+        		Genera el archivo necesario para programar el robot en cuestión con la trayectoria diseñada hasta esta instrucción.
+        
+	\end{itemize}
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    \section{Ejemplo de uso}
+    
+    La siguiente rutina permite iniciar al robot, realizar 3 giros con distintos parámetros y mediante los diferentes interpoladores, obtener una gráfica de las velocidades de las ruedas y de la trayectoria esperada, y generar el código necesario para programar al robot target para desarrollar dicha trayectoria.
+    
+    \begin{verbatim}
+    INICIO(N6)
+    GIRO_POL_3(0.5,15)
+    GIRO_POL_5(0.1,4)
+    GIRO_CICLO(0.3,10)
+    GRAFICAR_VELOCIDADES()
+    GRAFICAR_TRAYECTORIA()
+    EXPORTAR()
+	\end{verbatim}
+    
+    \begin{figure}[H]
+    \centering
+    \input{Trayectorias.tikz}
+    \caption{Trayectoria a realizar}
+    \label{fig:Trayectoria_a_realizar}
+    \end{figure}
+    
+    \begin{figure}[H]
+    \centering
+    \input{Velocidades.tikz}
+    \caption{Velocidades de las ruedas}
+    \label{fig:Velocidades}
+    \end{figure}
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    \section{Conclusiones}
+    
+	Se pudo crear un compilador mediante el uso de la herramienta provista por ANTLRWorks, el cual permite desarrollar un lenguaje de programación de alto nivel, cuya comprensión para el usuario se puede lograr con la simple lectura de las instrucciones, a la vez de abstraerlo de las características del robot target a emplear.
+    Si bien el lenguaje de alto nivel desarrollado cuenta con un set de instrucciones reducido, permite comprender cómo funciona un compilador y cuáles son los pasos necesarios para llevar a cabo su construcción.
+    
+    Como futura mejora, se podría realizar el desarrollo del compilador íntegramente mediante el IDE ANTLR, sin la necesidad de emplear funciones desarrolladas en MATLAB, lo cual podría aumentar la eficiencia del programa desarrollado. Esto no pudo ser llevado a cabo en estas instancias, en gran parte debido a la falta de experiencia en el manejo del lenguaje Java sobre el cual se maneja la herramienta de desarrollo.
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    \newpage
+    
+    \section{Anexo}
+    
+    	\subsection{Función para iniciar el robot}
+        
+        \begin{verbatim}
+        function [ vector_velocidad_derecha, vector_velocidad_izquierda,
+        distancia_entre_ruedas, Diametro_ruedas,
+        Velocidad_maxima_RPM_motores  ] = iniciar_robot( modelo )
+
+        vector_velocidad_derecha = zeros(0);
+        vector_velocidad_izquierda = zeros(0);
+
+        switch modelo
+        case   'N6'
+        distancia_entre_ruedas = 0.131;
+        Diametro_ruedas = 0.058;
+        Velocidad_maxima_RPM_motores = 200;
+        end
+        end
+		\end{verbatim}
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        \subsection{Función para emplear el interpolador cicloidal}
+        
+        \begin{verbatim}
+        function [ vector_velocidad_derecha ] = 
+        trayectoria_cicloidal_rueda_derecha( distancia_entre_ruedas,
+        Diametro_ruedas, Velocidad_maxima_RPM_motores, radio_de_giro,
+        tiempo_del_recorrido, vector_velocidad_derecha )
+
+        % Parametros del robot
+        radio_de_giro_derecho = radio_de_giro + distancia_entre_ruedas/2;
+        posicion_final_derecho = 2 * pi * radio_de_giro_derecho;
+        Velocidad_tangencial_maxima_motores =
+        Velocidad_maxima_RPM_motores * ( 1 / 60 ) * pi * Diametro_ruedas;
+
+        posicion_inicial = 0;           % En metros
+        posicion_final = posicion_final_derecho;           % En metros
+
+        tiempo_simulado = 0 : 0.05 : tiempo_del_recorrido;
+
+        % Cicloidal
+        % Posicion(t) = Delta_posicion * ( t/T - sin(2*pi*t/T)/2*pi )
+        % Velocidad(t) = Delta_posicion/T * ( 1 - cos(2*pi*t/T) )
+        % Aceleracio(t) = Delta_posicion/T^2 * 2*pi * sin(2*pi*t/T)
+        Delta_posicion = posicion_final - posicion_inicial;
+        velocidad_ciclo = Delta_posicion / tiempo_del_recorrido *
+        ( 1 - cos( 2 * pi * tiempo_simulado / tiempo_del_recorrido ) );
+
+        % Calculo de los valores relativos para el arduino
+        velocidad_ciclo_arduino_derecho = 100 * velocidad_ciclo /
+        Velocidad_tangencial_maxima_motores;
+        vector_velocidad_derecha = [ vector_velocidad_derecha
+        velocidad_ciclo_arduino_derecho ];
+
+        end
+		\end{verbatim}
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        \subsection{Función para emplear el interpolador polinomial de orden 5}
+        
+        \begin{verbatim}
+        function [ vector_velocidad_derecha ] =
+        trayectoria_polinomial_quinto_orden_rueda_derecha( distancia_entre_ruedas,
+        Diametro_ruedas, Velocidad_maxima_RPM_motores, radio_de_giro,
+        tiempo_del_recorrido, vector_velocidad_derecha )
+
+        % Parametros del robot
+        radio_de_giro_derecho = radio_de_giro + distancia_entre_ruedas/2;
+        posicion_final_derecho = 2 * pi * radio_de_giro_derecho;
+        Velocidad_tangencial_maxima_motores = Velocidad_maxima_RPM_motores *
+        ( 1 / 60 ) * pi * Diametro_ruedas;
+
+        posicion_inicial = 0;           % En metros
+        posicion_final = posicion_final_derecho;           % En metros
+        velocidad_inical = 0;           % En metros/seg
+        velocidad_final = 0;            % En metros/seg
+        aceleracion_inicial = 0;        % En metros/segundos^2
+        aceleracion_final = 0;          % En metros/segundos^2
+
+        tiempo_simulado = 0 : 0.05 : tiempo_del_recorrido;
+
+        % Polionomial de 5 orden
+        % Posicion(t) = E + F * t + G * t^2 + H * t^3 + I * t^4 + J * t^5
+        F = velocidad_inical;
+        G = aceleracion_inicial / 2;
+        H = - ( 20 * ( posicion_inicial - posicion_final ) +
+        ( 3 * aceleracion_inicial - aceleracion_final ) *
+        tiempo_del_recorrido^2 + tiempo_del_recorrido *
+        ( 12 * velocidad_inical + 8 * velocidad_final ) ) /
+        ( 2 * tiempo_del_recorrido^3 );
+        I = - ( 30 * ( -posicion_inicial + posicion_final ) -
+        tiempo_del_recorrido *
+        ( 16 * velocidad_inical + 14 * velocidad_final ) +
+        tiempo_del_recorrido^2 * ( -3 * aceleracion_inicial + 2 *
+        aceleracion_final ) ) / ( 2 * tiempo_del_recorrido^4 );
+        J = - ( 12 * ( posicion_inicial - posicion_final ) +
+        tiempo_del_recorrido *
+        ( 6 * velocidad_inical + 6 * velocidad_final ) +
+        tiempo_del_recorrido^2 *
+        ( aceleracion_inicial - aceleracion_final ) ) /
+        ( 2 * tiempo_del_recorrido^5 );
+        
+        velocidad_pol5 = F + 2 * G * tiempo_simulado + 3 *
+        H * tiempo_simulado.^2 + 4 * I * tiempo_simulado.^3 +
+        5 * J * tiempo_simulado.^4;
+
+        % Calculo de los valores relativos para el arduino
+        velocidad_pol5_arduino_derecha = 100 * velocidad_pol5 /
+        Velocidad_tangencial_maxima_motores;
+        vector_velocidad_derecha = [ vector_velocidad_derecha
+        velocidad_pol5_arduino_derecha ];
+
+        end
+        \end{verbatim}
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        \subsection{Función para emplear el interpolador polinomial de orden 3}
+        
+        \begin{verbatim}
+        function [ vector_velocidad_derecha ] =
+        trayectoria_polinomial_tercer_orden_rueda_derecha( distancia_entre_ruedas,
+        Diametro_ruedas, Velocidad_maxima_RPM_motores, radio_de_giro,
+        tiempo_del_recorrido, vector_velocidad_derecha )
+
+        % Parametros del robot
+        radio_de_giro_derecho = radio_de_giro + distancia_entre_ruedas/2;
+        posicion_final_derecho = 2 * pi * radio_de_giro_derecho;
+        Velocidad_tangencial_maxima_motores = Velocidad_maxima_RPM_motores *
+        ( 1 / 60 ) * pi * Diametro_ruedas;     % Metros / segundos
+
+        posicion_inicial = 0;           % En metros
+        posicion_final = posicion_final_derecho;           % En metros
+        velocidad_inical = 0;           % En metros/seg
+        velocidad_final = 0;            % En metros/seg
+
+        tiempo_simulado = 0 : 0.05 : tiempo_del_recorrido;
+
+        % Polionomial de 3 orden
+        % Posicion(t) = A + B * t + C * t^2 + D * t^3
+        B = velocidad_inical;
+        C = ( 3 * ( posicion_final - posicion_inicial ) -
+        tiempo_del_recorrido * ( 2 * velocidad_inical + velocidad_final ) ) /
+        ( tiempo_del_recorrido^2 );
+        D = - ( 2 * ( posicion_final - posicion_inicial ) -
+        tiempo_del_recorrido * ( velocidad_inical + velocidad_final ) ) /
+        ( tiempo_del_recorrido^3 );
+
+        velocidad_pol3 = B + 2 * C * tiempo_simulado + 3 * D * tiempo_simulado.^2;
+
+        % Calculo de los valores relativos para el arduino
+        velocidad_pol3_arduino_derecha = 100 * velocidad_pol3 /
+        Velocidad_tangencial_maxima_motores;
+        vector_velocidad_derecha = [ vector_velocidad_derecha
+        velocidad_pol3_arduino_derecha ];
+        end
+		\end{verbatim}
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        \subsection{Función para graficar la velocidad de las ruedas}
+        
+        \begin{verbatim}
+        function    graficar_velocidades( vector_velocidad_derecha,
+        vector_velocidad_izquierda, tiempo_acumulado )
+        
+        eje_X = ( 0 : length( vector_velocidad_derecha ) - 1 ) *
+        ( tiempo_acumulado / length( vector_velocidad_derecha ) );
+        figure();
+        subplot( 2, 1, 1 );
+        plot( eje_X, vector_velocidad_derecha );
+        xlabel( 'Segundos' );
+        ylabel( 'Velocidad porcentual' );
+        title( 'Velocidad de la rueda derecha del robot' );
+        grid 'on';
+        maximo_X = max( eje_X );
+        minimo_X = 0;
+        maximo_Y = 100;
+        minimo_Y = 0;
+        axis( [ minimo_X maximo_X minimo_Y maximo_Y ] );
+        subplot( 2, 1, 2 );
+        plot( eje_X, vector_velocidad_izquierda );
+        xlabel( 'Segundos' );
+        ylabel( 'Velocidad porcentual' );
+        title( 'Velocidad de la rueda izquierda del robot' );
+        grid 'on';
+        maximo_X = max( eje_X );
+        minimo_X = 0;
+        maximo_Y = 100;
+        minimo_Y = 0;
+        axis( [ minimo_X maximo_X minimo_Y maximo_Y ] );
+        end
+		\end{verbatim}
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        \subsection{Función para graficar la trayectoria a realizar}
+        
+        \begin{verbatim}
+        function    graficar_trayectoria( vector_velocidad_derecha,
+        vector_velocidad_izquierda, Velocidad_maxima_RPM_motores,
+        distancia_entre_ruedas, Diametro_ruedas )
+        
+        matriz_homogenea = zeros( 3, 3 );
+        matriz_homogenea( 3, 3 ) = 1;
+        coordenadas = zeros( 3, 1 );
+        offset = zeros( 3, 1 );
+        
+        X = 1;
+        Y = 2;
+        Tita = 3;
+        
+        matriz_resultados = zeros( 3, length( vector_velocidad_izquierda ) );
+
+        tiempo_por_intervalo = 0.05;
+        X_inicial = 0;
+        Y_inicial = 0;
+        Tita_inicial = toRadians( 'degrees', 90 );
+
+        matriz_resultados( X, 1 ) = X_inicial;
+        matriz_resultados( Y, 1 ) = Y_inicial;
+        matriz_resultados( Tita, 1 ) = Tita_inicial;
+
+        Velocidad_tangencial_maxima_motores = Velocidad_maxima_RPM_motores *
+        ( 1 / 60 ) * pi * Diametro_ruedas;     % Metros / segundos
+        velocidad_derecha_real = vector_velocidad_derecha *
+        ( Velocidad_tangencial_maxima_motores / 100 );
+        velocidad_izquierda_real = vector_velocidad_izquierda *
+        ( Velocidad_tangencial_maxima_motores / 100 );
+    
+        for indice = 1 : length( velocidad_izquierda_real ) - 1
+
+           if( velocidad_derecha_real( indice ) == velocidad_izquierda_real(indice) )
+
+                % Si las velocidades son iguales, va en linea recta y no hay
+                % que calcular el radio de giro, porque da infinito y se
+                % pierden los datos
+
+                nuevo_X = matriz_resultados( X, indice ) +
+                velocidad_derecha_real( indice ) * tiempo_por_intervalo *
+                cos( matriz_resultados( Tita, indice ) );
+                nuevo_Y = matriz_resultados( Y, indice ) +
+                velocidad_derecha_real( indice ) * tiempo_por_intervalo *
+                sin( matriz_resultados( Tita, indice ) );
+                nuevo_Tita = matriz_resultados( Tita, indice );
+
+                matriz_resultados( X, indice + 1 ) = nuevo_X;
+                matriz_resultados( Y, indice + 1 ) = nuevo_Y;
+                matriz_resultados( Tita, indice + 1 ) = nuevo_Tita;
+
+           else
+
+                radio = ( distancia_entre_ruedas / 2 ) *
+                ( ( velocidad_derecha_real( indice ) +
+                velocidad_izquierda_real( indice ) ) /
+                ( velocidad_derecha_real( indice ) -
+                velocidad_izquierda_real( indice ) ) );
+                Wt = ( velocidad_derecha_real( indice ) -
+                velocidad_izquierda_real( indice ) ) *
+                ( tiempo_por_intervalo / distancia_entre_ruedas );
+                ICCx = matriz_resultados( X, indice ) -
+                radio * sin( matriz_resultados( Tita, indice ) );
+                ICCy = matriz_resultados( Y, indice ) +
+                radio * cos( matriz_resultados( Tita, indice ) );
+
+                matriz_homogenea( 1, 1 ) =  cos( Wt );
+                matriz_homogenea( 1, 2 ) = -sin( Wt );
+                matriz_homogenea( 2, 1 ) =  sin( Wt );
+                matriz_homogenea( 2, 2 ) =  cos( Wt );
+
+                coordenadas( 1, 1 ) = matriz_resultados( X, indice ) - ICCx;
+                coordenadas( 2, 1 ) = matriz_resultados( Y, indice ) - ICCy;
+                coordenadas( 3, 1 ) = matriz_resultados( Tita, indice );
+
+                offset( 1, 1 ) = ICCx;
+                offset( 2, 1 ) = ICCy;
+                offset( 3, 1 ) = Wt;
+
+                matriz_resultados( :, indice + 1 ) = matriz_homogenea *
+                coordenadas + offset;
+
+           end
+
+        end
+    
+        figure();
+        plot( matriz_resultados( X, : ), matriz_resultados( Y, : ), 'x' );
+        title( 'Trayectoria simulada' );
+        xlabel( 'Metros' );
+        ylabel( 'Metros' );
+        maximo_X = 1.1 * max( matriz_resultados( X, : ) );
+        minimo_X = 1.1 * min( matriz_resultados( X, : ) );
+        maximo_Y = 1.1 * max( matriz_resultados( Y, : ) );
+        minimo_Y = 1.1 * min( matriz_resultados( Y, : ) );
+        axis( [ minimo_X maximo_X minimo_Y maximo_Y ] );
+        grid 'on'
+        
+        end
+		\end{verbatim}
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        \subsection{Función para exportar el código al micro controlador}
+        
+        \begin{verbatim}
+        function exportar_datos( vector_velocidad_derecha,
+        vector_velocidad_izquierda )
+
+        % Por formato del arduino, el archivo debe estar en una carpeta con su
+        % mismo nombre
+        fecha_ejecucion = clock;
+        % Se usa la fecha de ejecucion del script como nombre para la carpeta
+        % donde van las imagenes de salida
+        nombre_salida = [ 'Trayectoria_' num2str( fecha_ejecucion(1) ) '_'
+        num2str( fecha_ejecucion(2) ) '_' num2str( fecha_ejecucion(3) ) '_'
+        num2str( fecha_ejecucion(4) ) '_' num2str( fecha_ejecucion(5) ) ];
+        mkdir( nombre_salida );
+
+        % Apertura del archivo donde se guardaran los datos
+        fi = fopen( [ nombre_salida '\' nombre_salida '.ino' ], 'wt' );
+
+        % Escritura del encabezado
+        fprintf( fi, '//Includes\n' );
+        fprintf( fi, '#include\t<DCMotor.h>\n\n' );
+
+        fprintf( fi, '//Define\n' );
+        fprintf( fi, '#define\tUN_SEGUNDO\t1000\n' );
+        fprintf( fi, '#define\tUN_MILI_SEGUNDO\t1\n' );
+        fprintf( fi, '#define\tCANTIDAD_DE_MEDICIONES\t10000\n\n' );
+
+        fprintf( fi, '//Declaracion de variables\n' );
+        fprintf( fi, 'DCMotor motor0(M0_EN, M0_D0, M0_D1);\t
+        // Motor 0 es el derecho\n' );
+        fprintf( fi, 'DCMotor motor1(M1_EN, M1_D0, M1_D1);\t
+        // Motor 1 es el izquierdo\n\n' );
+
+        fprintf( fi, 'double  velocidad_izquierda[] = {\n' );
+            for i = 1 : length( vector_velocidad_izquierda ) - 1
+                fprintf( fi, '%f,\n', vector_velocidad_izquierda(i) );
+            end
+            fprintf( fi, '%f\n', vector_velocidad_izquierda(end) );
+        fprintf( fi, '};\n\n' );
+
+        fprintf( fi, 'double  velocidad_derecha[] = {\n' );
+            for i = 1 : length( vector_velocidad_derecha ) - 1
+                fprintf( fi, '%f,\n', vector_velocidad_derecha(i) );
+            end
+            fprintf( fi, '%f\n', vector_velocidad_derecha(end) );
+        fprintf( fi, '};\n\n\n' );
+
+        % Funcion setup
+        fprintf( fi, '// Funcion setup\n' );
+        fprintf( fi, 'void setup()\n' );
+        fprintf( fi, '{\n' );
+        fprintf( fi, '\tint\tcontador, contador_encoders,
+        sensor_derecho, sensor_izquierdo;\n' );
+        fprintf( fi, '\tunsigned long\ttic, toc, demora, us_restantes;\n' );
+        fprintf( fi, '\tSerial.begin(9600);\n' );
+        fprintf( fi, '\tmotor1.setClockwise(false);\n' );
+        fprintf( fi, '\tdelay( 2500 );\n' );
+        fprintf( fi, [ '\tfor( contador = 0; contador < '
+        num2str(length( vector_velocidad_izquierda ) + 1) '; contador++ )\n' ] );
+        fprintf( fi, '\t{\n' );
+        fprintf( fi, '\t\tmotor1.setSpeed( velocidad_derecha[ contador ] );
+        \n' );
+        fprintf( fi, '\t\tmotor0.setSpeed( velocidad_izquierda[ contador ] );
+        \n' );
+        fprintf( fi, '\t\tfor( contador_encoders = 0;
+        contador_encoders < 50; contador_encoders++ ) \n' );
+        fprintf( fi, '\t\t{\n' );
+        fprintf( fi, '\t\t\ttic = micros();\n' );
+        fprintf( fi, '\t\t\tsensor_derecho = analogRead( 0 );\n' );
+        fprintf( fi, '\t\t\tSerial.print( sensor_derecho );\n' );
+        fprintf( fi, '\t\t\tSerial.print( "," );\n' );
+        fprintf( fi, '\t\t\tsensor_izquierdo = analogRead( 1 );\n' );
+        fprintf( fi, '\t\t\tSerial.println( sensor_izquierdo );\n' );
+        fprintf( fi, '\t\t\ttoc = micros();\n' );
+        fprintf( fi, '\t\t\tdemora = toc - tic;\n' );
+        fprintf( fi, '\t\t\tus_restantes = 1000 - demora;\n' );
+        fprintf( fi, '\t\t\tdelayMicroseconds( us_restantes );\n' );
+        fprintf( fi, '\t\t}\n' );
+        fprintf( fi, '\t}\n' );
+        fprintf( fi, '\tmotor1.brake();\n' );
+        fprintf( fi, '\tmotor0.brake();\n' );
+        fprintf( fi, '}\n\n' );
+
+        % Funcion loop
+        fprintf( fi, '// Funcion loop\n' );
+        fprintf( fi, 'void loop()\n' );
+        fprintf( fi, '{ }\n' );
+
+        % Cierre del archivo
+        fclose( fi );
+		\end{verbatim}
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
